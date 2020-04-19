@@ -38,6 +38,7 @@ log.info """
         -------------------------------------------
          --readsdir         : ${params.readsdir}
          --fqpattern        : ${params.fqpattern}
+         --ontreads         : ${params.ontreads}
          --outdir           : ${params.outdir}
          --database         : ${params.database}
 
