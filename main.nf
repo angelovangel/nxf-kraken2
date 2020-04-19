@@ -21,6 +21,7 @@ ANSI_RESET = "\033[0m"
 params.readsdir = "fastq"
 params.outdir = "${params.readsdir}/results-kraken2" // output is where the reads are because it is easier to integrate with shiny later
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
+params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
 params.help = ""
 
@@ -83,7 +84,7 @@ reads = readsdir_repaired + params.fqpattern
 
 // get counts of found fastq files
 readcounts = file(reads)
-println "Found " + readcounts.size() " files\n"
+println "Found " + readcounts.size() + " files\n"
 
 /* 
  * channels for kraken2 with reads (single- or pair-end) and database
@@ -113,11 +114,15 @@ process fastp {
 
     script:
     def single = x instanceof Path // this is from Paolo: https://groups.google.com/forum/#!topic/nextflow/_ygESaTlCXg
+    def qscore_cutoff = params.ontreads ? 7 : 15
+
     if ( !single ) {
         seqmode = "PE"
         """
         mkdir fastp_trimmed
-        fastp -i ${x[0]} -I ${x[1]} \
+        fastp \
+        -q $qscore_cutoff \
+        -i ${x[0]} -I ${x[1]} \
         -o fastp_trimmed/trim_${x[0]} -O fastp_trimmed/trim_${x[1]} \
         -j ${sample_id}_fastp.json
         """
@@ -126,7 +131,9 @@ process fastp {
         seqmode = "SE"
         """
         mkdir fastp_trimmed
-        fastp -i ${x} \
+        fastp \
+        -q $qscore_cutoff \
+        -i ${x} \
         -o fastp_trimmed/trim_${x} \
         -j ${sample_id}_fastp.json
         """
@@ -149,7 +156,7 @@ process kraken2 {
     
     output:
         file("${sample_id}_kraken2.report") // this is published and later used in pavian?
-        tuple sample_id, file("${sample_id}_kraken2.krona")
+        tuple sample_id, file("kraken2.krona")
 
     script:
     def single = x instanceof Path
@@ -160,8 +167,8 @@ process kraken2 {
             -db $krakendb \
             --report ${sample_id}_kraken2.report \
             --paired ${x[0]} ${x[1]} \
-            > ${sample_id}_kraken2.kraken
-        cut -f 2,3 ${sample_id}_kraken2.kraken > ${sample_id}_kraken2.krona
+            > kraken2.output
+        cut -f 2,3 kraken2.output > kraken2.krona
         """
     } 
     else {
@@ -171,7 +178,7 @@ process kraken2 {
             --report ${sample_id}_kraken2.report \
             ${x} \
             > ${sample_id}_kraken2.kraken
-        cut -f 2,3 ${sample_id}_kraken2.kraken > ${sample_id}_kraken2.krona
+        cut -f 2,3 kraken2.output > kraken2.krona
         """
     }
 
