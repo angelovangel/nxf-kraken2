@@ -83,31 +83,32 @@ reads = readsdir_repaired + params.fqpattern
 
 // get counts of found fastq files
 readcounts = file(reads)
-//println readcounts.size()
+println "Found " + readcounts.size() " files\n"
 
 /* 
- * channel for kraken2 with reads, single- or pair-end 
+ * channels for kraken2 with reads (single- or pair-end) and database
  */
 
- Channel 
+Channel
     .fromFilePairs( reads, checkIfExists: true, size: -1 ) // default is 2, so set to -1 to allow any number of files
     .ifEmpty { error "Can not find any reads matching ${reads}" }
     .set{ read_ch }
 
+
 /* 
- * run kraken2 
+ * run fastp 
  */
+process fastp {
 
-process kraken2 {
-
+    tag "fastp on $sample_id"
     //echo true
-    publishDir params.outdir, mode: 'copy', pattern: 'fastp_trimmed/*' // publish 
+    publishDir params.outdir, mode: 'copy', pattern: 'fastp_trimmed/*' // publish only trimmed fastq files
+
     input:
         tuple sample_id, file(x) from read_ch
     
     output:
-        file("kraken2.report")
-        val seqmode into seqmode_ch
+        tuple sample_id, file('fastp_trimmed/trim_*') into fastp_ch
 
 
     script:
@@ -115,20 +116,74 @@ process kraken2 {
     if ( !single ) {
         seqmode = "PE"
         """
-        kraken2 -db ${params.database} \
-        --fastq_input \
-        --report kraken2.report
-        --paired ${x[0]} ${x[1]} 
+        mkdir fastp_trimmed
+        fastp -i ${x[0]} -I ${x[1]} \
+        -o fastp_trimmed/trim_${x[0]} -O fastp_trimmed/trim_${x[1]} \
+        -j ${sample_id}_fastp.json
         """
     } 
     else {
         seqmode = "SE"
         """
-        kraken2 -db ${params.database} \
-        --fastq_input \
-        --report kraken2.report
-        ${x}
+        mkdir fastp_trimmed
+        fastp -i ${x} \
+        -o fastp_trimmed/trim_${x} \
+        -j ${sample_id}_fastp.json
         """
     }
 
 }
+
+
+/* 
+ * run kraken2
+ */
+process kraken2 {
+    tag "kraken2 on $sample_id"
+    //echo true
+    publishDir params.outdir, mode: 'copy'
+    
+    input:
+        path krakendb from "${params.database}"
+        tuple sample_id, file(x) from fastp_ch
+    
+    output:
+        file("${sample_id}_kraken2.report") // this is published and later used in pavian?
+        tuple sample_id, file("${sample_id}_kraken2.krona")
+
+    script:
+    def single = x instanceof Path
+
+    if ( !single ) {
+        """
+        kraken2 \
+            -db $krakendb \
+            --report ${sample_id}_kraken2.report \
+            --paired ${x[0]} ${x[1]} \
+            > ${sample_id}_kraken2.kraken
+        cut -f 2,3 ${sample_id}_kraken2.kraken > ${sample_id}_kraken2.krona
+        """
+    } 
+    else {
+        """
+        kraken2 \
+             -db ${params.database} \
+            --report ${sample_id}_kraken2.report \
+            ${x} \
+            > ${sample_id}_kraken2.kraken
+        cut -f 2,3 ${sample_id}_kraken2.kraken > ${sample_id}_kraken2.krona
+        """
+    }
+
+}
+/*
+process krona_db {
+    output:
+    file("krona_db/taxonomy.tab") into krona_db_ch
+
+    script:
+    """
+    ktUpdateTaxonomy.sh krona_db
+    """
+}
+*/

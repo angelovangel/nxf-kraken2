@@ -5,4 +5,4 @@ LABEL maintainer="Angel Angelov <aangeloo@gmail.com>"
 
 COPY environment.yml .
 RUN conda env update -n root -f environment.yml && conda clean -afy
-RUN apt-get update
+RUN apt-get update && apt-get install make

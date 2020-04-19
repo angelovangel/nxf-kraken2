@@ -1,2 +1,5 @@
 .nextflow*
 .DS_Store
+*.report
+results*
+work
