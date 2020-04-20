@@ -1,5 +1,6 @@
 # nextflow-kraken2
-a simple nextflow pipeline for running kraken2 and bracken in a docker container
+
+A relatively simple metagenomics analysis pipeline written in nextflow. The pipeline is based on `kraken2` and `bracken` and is supplemented with `Krona` visualizations and interactive html tables.
 
 ## Description
 The pipeline runs in a docker container by default. 
@@ -13,6 +14,11 @@ For a set of `fastq` files it executes:
 
 ## Running the pipeline
 
+Nothing to install, as soon as you have `docker` and `nextflow`. Download a `kraken2` database, e.g. from [here]() and run the pipeline:
 
-## Setup `kraken2` database
+```
+
+```
+
+## Download and setup of a `kraken2` database
 

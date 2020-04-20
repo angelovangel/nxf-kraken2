@@ -148,22 +148,22 @@ process fastp {
 /* 
  run kraken2 AND bracken 
  Kraken-Style Bracken Report --> to use in pavian
- Bracken output file --> just a table, to be published
+ Bracken output file --> just a table, to be formatted and saved as html DataTable using R
  kraken2 counts file, this is the kraken2.output --> to use in krona
  */
 process kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
-    publishDir params.outdir, mode: 'copy'
+    publishDir params.outdir, mode: 'copy', pattern: '*.{report,table}'
     
     input:
         path krakendb from "${params.database}" //this db is not in the docker image
         tuple sample_id, file(x) from fastp_ch
     
     output:
-        file("${sample_id}_*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
-        file("${sample_id}_kraken2.krona") into kraken2krona_ch
-        file("${sample_id}_bracken.table")
+        file("*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
+        file("*kraken2.krona") into kraken2krona_ch
+        tuple sample_id, file("*bracken.table") into bracken2DT_ch
     
     script:
     def single = x instanceof Path
@@ -216,8 +216,7 @@ process krona_db {
 // prepare channel for krona, I want to have all samples in one krona plot
 // e.g. ktImportTaxonomy file1 file2 ...
 
-// run krona of the bracken results
-
+// run krona on the kraken2 results
 process krona {
     publishDir params.outdir, mode: 'copy'
 
@@ -231,5 +230,23 @@ process krona {
     script:
     """
     ktImportTaxonomy $x -o kraken2_taxonomy_krona.html -tax krona_db
+    """
+}
+
+// format and save bracken table as DataTable
+
+process DataTable {
+    tag "DataTable on $sample_id"
+    publishDir params.outdir, mode: 'copy', pattern: '*.html'
+
+    input:
+        tuple sample_id, file(x) from bracken2DT_ch
+        
+    output:
+        file("*.html")
+
+    script: 
+    """
+    bracken2dt.R $x ${sample_id}_bracken.html
     """
 }
