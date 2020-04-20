@@ -20,7 +20,7 @@ ANSI_RESET = "\033[0m"
  */
 params.readsdir = "fastq"
 params.outdir = "${params.readsdir}/results-kraken2" // output is where the reads are because it is easier to integrate with shiny later
-params.fqpattern = "*_R{1,2}_001.fastq.gz"
+params.fqpattern = "*_R{1,2}_001.fastq"
 params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
 params.help = ""
@@ -146,20 +146,24 @@ process fastp {
 
 
 /* 
- * run kraken2
+ run kraken2 AND bracken 
+ Kraken-Style Bracken Report --> to use in pavian
+ Bracken output file --> just a table, to be published
+ kraken2 counts file, this is the kraken2.output --> to use in krona
  */
 process kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
-    publishDir params.outdir, mode: 'copy', pattern: '*_kraken2.report'
+    publishDir params.outdir, mode: 'copy'
     
     input:
         path krakendb from "${params.database}" //this db is not in the docker image
         tuple sample_id, file(x) from fastp_ch
     
     output:
-        file("${sample_id}_kraken2.report") // this is published and later used in pavian?
-        file("${sample_id}_kraken2.krona") into kraken2_ch
+        file("${sample_id}_*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
+        file("${sample_id}_kraken2.krona") into kraken2krona_ch
+        file("${sample_id}_bracken.table")
     
     script:
     def single = x instanceof Path
@@ -172,6 +176,11 @@ process kraken2 {
             --paired ${x[0]} ${x[1]} \
             > kraken2.output
         cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
+
+        bracken \
+            -d $krakendb \
+            -i ${sample_id}_kraken2.report \
+            -o ${sample_id}_bracken.table
         """
     } 
     else {
@@ -182,10 +191,17 @@ process kraken2 {
             ${x} \
             > kraken2.output
         cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
+
+        bracken \
+            -d $krakendb \
+            -i ${sample_id}_kraken2.report \
+            -o ${sample_id}_bracken.table
         """
     }
 
 }
+
+
 // setup the krona database and put it in a channel
 process krona_db {
     output:
@@ -200,13 +216,13 @@ process krona_db {
 // prepare channel for krona, I want to have all samples in one krona plot
 // e.g. ktImportTaxonomy file1 file2 ...
 
-// run krona of the kraken2 results
+// run krona of the bracken results
 
 process krona {
     publishDir params.outdir, mode: 'copy'
 
     input:
-        file(x) from kraken2_ch.collect()
+        file(x) from kraken2krona_ch.collect()
         file("krona_db/taxonomy.tab") from krona_db_ch
     
     output:
