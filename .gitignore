@@ -3,3 +3,4 @@
 *.report
 results*
 work
+.Rhistory
