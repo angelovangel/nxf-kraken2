@@ -9,7 +9,7 @@ For a set of `fastq` files it executes:
 - `bracken` 
 - `krona` plots are generated from the output of `bracken`
 
-*Note: you have to setup your kraken2 database separately*
+*Note: you have to setup your kraken2 database separately, it is not included in the container*
 
 ## Running the pipeline
 
