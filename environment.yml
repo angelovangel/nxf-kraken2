@@ -8,8 +8,8 @@ dependencies:
   - bracken=2.6.0
   - krona=2.7.1
   - pandoc=2.9.2.1
-  - r-base=3.6.1
-  - r-data.table=1.12.2
-  - r-dplyr=0.8.0.1
-  - r-tidyr=0.8.3
-  - r-dt=0.4
+  - r-base
+  - r-data.table
+  - r-dplyr
+  - r-tidyr
+  - r-dt
