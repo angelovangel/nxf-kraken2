@@ -23,6 +23,7 @@ params.outdir = "${params.readsdir}/results-kraken2" // output is where the read
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
+params.weakmem = false
 params.help = ""
 
 /* 
@@ -55,6 +56,7 @@ log.info """
          --ontreads         : ${params.ontreads}
          --outdir           : ${params.outdir}
          --database         : ${params.database}
+         --weakmem          : ${params.weakmem}
 
          Runtime data:
         -------------------------------------------
@@ -83,6 +85,7 @@ log.info """
          --ontreads         : logical, set to true in case of Nanopore reads, default is false
          --outdir           : where results will be saved, default is "results-fastp"
          --database         : kraken2 database, default is ${params.database}
+         --weakmem          : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
         ===========================================
          """
          .stripIndent()
@@ -168,11 +171,13 @@ process kraken2 {
     
     script:
     def single = x instanceof Path
+    def memory = params.weakmem ? "--memory-mapping" : ""  // use --memory-mapping to avoid loading db in ram on weak systems
 
     if ( !single ) {
         """
         kraken2 \
             -db $krakendb \
+            $memory \
             --report ${sample_id}_kraken2.report \
             --paired ${x[0]} ${x[1]} \
             > kraken2.output
@@ -188,6 +193,7 @@ process kraken2 {
         """
         kraken2 \
              -db ${params.database} \
+             $memory \
             --report ${sample_id}_kraken2.report \
             ${x} \
             > kraken2.output
