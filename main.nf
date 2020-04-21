@@ -20,7 +20,7 @@ ANSI_RESET = "\033[0m"
  */
 params.readsdir = "fastq"
 params.outdir = "${params.readsdir}/results-kraken2" // output is where the reads are because it is easier to integrate with shiny later
-params.fqpattern = "*_R{1,2}_001.fastq"
+params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
 params.help = ""
@@ -163,7 +163,8 @@ process kraken2 {
     output:
         file("*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
         file("*kraken2.krona") into kraken2krona_ch
-        tuple sample_id, file("*bracken.table") into bracken2DT_ch
+        tuple sample_id, file("*bracken.table") into bracken2dt_ch
+        //file("*bracken.table") into bracken2summary_ch
     
     script:
     def single = x instanceof Path
@@ -240,7 +241,8 @@ process DataTable {
     publishDir params.outdir, mode: 'copy', pattern: '*.html'
 
     input:
-        tuple sample_id, file(x) from bracken2DT_ch
+        tuple sample_id, file(x) from bracken2dt_ch
+        //file(y) from bracken2summary_ch.collect()
         
     output:
         file("*.html")
@@ -248,5 +250,6 @@ process DataTable {
     script: 
     """
     bracken2dt.R $x ${sample_id}_bracken.html
+    bracken2summary.R $x
     """
 }

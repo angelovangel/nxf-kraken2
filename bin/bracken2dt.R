@@ -30,7 +30,7 @@ bracken2dt <- function(path, outfile) {
                                   tools::file_path_sans_ext(basename(outfile) )
                                   ) 
                   ) %>%
-    formatPercentage(4) %>%
+    formatPercentage(4, digits = 2) %>%
     DT::saveWidget(file = outfile)
   }
 
