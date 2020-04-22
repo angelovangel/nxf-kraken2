@@ -11,11 +11,14 @@ library(DT)
 arg <- commandArgs(trailingOnly = TRUE)
 
 bracken2summary <- function(files) {
+  names(files) <- basename(tools::file_path_sans_ext(files))
   lapply(files, fread) %>%
     bind_rows(.id = "id") %>% 
     dplyr::select(c(1,2,8)) %>% 
     dplyr::arrange(desc(fraction_total_reads)) %>%
-    tidyr::pivot_wider(names_from = id, values_from = fraction_total_reads) %>% 
+    tidyr::pivot_wider(names_from = id, 
+                       values_from = fraction_total_reads, 
+                       values_fill = list(fraction_total_reads = 0)) %>% # fill 0 if no value there
     datatable(class = 'hover row-border order-column', 
               extensions = 'Buttons',
               options = list(searchHighlight = TRUE, 
