@@ -29,7 +29,7 @@ nextflow run angelovangel/nextflow-kraken2 --help
 
 ### Main arguments
 
-See output of `nextflow run angelangelov/nextflow-kraken2 --help`
+See output of `nextflow run angelovangel/nextflow-kraken2 --help`
 
 ### Output
 
