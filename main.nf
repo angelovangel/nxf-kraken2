@@ -123,7 +123,7 @@ process fastp {
 
     script:
     def single = x instanceof Path // this is from Paolo: https://groups.google.com/forum/#!topic/nextflow/_ygESaTlCXg
-    def qscore_cutoff = params.ontreads ? 7 : 15
+    def qscore_cutoff = params.ontreads ? 7 : 15 //here ontreads matters
 
     if ( !single ) {
         seqmode = "PE"
@@ -175,7 +175,7 @@ process kraken2 {
     script:
     def single = x instanceof Path
     def memory = params.weakmem ? "--memory-mapping" : ""  // use --memory-mapping to avoid loading db in ram on weak systems
-
+    def readlen = params.ontreads ? 250 : 100 // and here ontreads matters. Dlt for -r is 100 in bracken, Dilthey used 1k in his paper
     if ( !single ) {
         """
         kraken2 \
@@ -188,6 +188,7 @@ process kraken2 {
 
         bracken \
             -d $krakendb \
+            -r $readlen \
             -i ${sample_id}_kraken2.report \
             -l ${params.level} \
             -o ${sample_id}_bracken.table
@@ -205,6 +206,7 @@ process kraken2 {
 
         bracken \
             -d $krakendb \
+            -r $readlen \
             -i ${sample_id}_kraken2.report \
             -l ${params.level} \
             -o ${sample_id}_bracken.table
