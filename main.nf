@@ -167,7 +167,7 @@ process kraken2 {
         file("*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
         file("*kraken2.krona") into kraken2krona_ch
         tuple sample_id, file("*bracken.table") into bracken2dt_ch
-        //file("*bracken.table") into bracken2summary_ch
+        file("*bracken.table") into bracken2summary_ch
     
     script:
     def single = x instanceof Path
@@ -242,13 +242,12 @@ process krona {
 
 // format and save bracken table as DataTable
 
-process DataTable {
-    tag "DataTable on $sample_id"
+process DataTables1 {
+    tag "DataTables1 on $sample_id"
     publishDir params.outdir, mode: 'copy', pattern: '*.html'
 
     input:
         tuple sample_id, file(x) from bracken2dt_ch
-        //file(y) from bracken2summary_ch.collect()
         
     output:
         file("*.html")
@@ -256,6 +255,20 @@ process DataTable {
     script: 
     """
     bracken2dt.R $x ${sample_id}_bracken.html
+    """
+}
+
+process DataTables2 {
+    tag "DataTables2"
+    publishDir params.outdir, mode: 'copy', pattern: '*.html'
+
+    input:
+        file(x) from bracken2summary_ch.collect() //this gives all the bracken table files as params to the script
+    output:
+        file("*.html")
+
+    script:
+    """
     bracken2summary.R $x
     """
 }
