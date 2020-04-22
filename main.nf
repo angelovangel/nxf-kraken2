@@ -24,6 +24,7 @@ params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
 params.weakmem = false
+params.level = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
 params.help = ""
 
 /* 
@@ -57,6 +58,7 @@ log.info """
          --outdir           : ${params.outdir}
          --database         : ${params.database}
          --weakmem          : ${params.weakmem}
+         --level            : ${params.level}
 
          Runtime data:
         -------------------------------------------
@@ -86,6 +88,7 @@ log.info """
          --outdir           : where results will be saved, default is "results-fastp"
          --database         : kraken2 database, default is ${params.database}
          --weakmem          : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
+         --level            : level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
         ===========================================
          """
          .stripIndent()
@@ -186,6 +189,7 @@ process kraken2 {
         bracken \
             -d $krakendb \
             -i ${sample_id}_kraken2.report \
+            -l ${params.level} \
             -o ${sample_id}_bracken.table
         """
     } 
@@ -202,6 +206,7 @@ process kraken2 {
         bracken \
             -d $krakendb \
             -i ${sample_id}_kraken2.report \
+            -l ${params.level} \
             -o ${sample_id}_bracken.table
         """
     }
