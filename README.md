@@ -42,4 +42,5 @@ Get the minikraken2 database, e.g. from [here](https://ccb.jhu.edu/software/krak
 ```bash
 tar -xzvf minikraken_8GB_202003.tgz
 ```
-The pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). 
+
+The pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250).

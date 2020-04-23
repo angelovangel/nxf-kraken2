@@ -267,13 +267,16 @@ process DataTables1 {
 
 process DataTables2 {
     tag "DataTables2"
-    publishDir params.outdir, mode: 'copy', pattern: '*.html'
+    publishDir params.outdir, mode: 'copy'
 
     input:
         file(x) from bracken2summary_ch.collect() //this gives all the bracken table files as params to the script
     output:
-        file("*.html")
+        file("*.html") optional true // for >= 6 samples html is not generated
+        file("*.csv")
 
+// the bracken2summary.R decides what to output depending on number of samples
+// for all sample counts - output a csv summary, for <= 12 - make html table and graph
     script:
     """
     bracken2summary.R $x
