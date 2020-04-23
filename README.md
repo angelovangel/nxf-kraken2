@@ -12,9 +12,7 @@ The pipeline runs in a docker container by default. Both Illumina and Nanopore (
 - [`krona`](https://github.com/marbl/Krona/wiki) - plots are generated from the output of `kraken2`
 - [`DataTables`](https://datatables.net/) - generates an interactive HTML table with the results from `bracken` for each sample, as well as a summary table for all the samples
 
-## Running the pipeline
-
-### Installation
+## Installation and running the pipeline
 
 Nothing to install, as soon as you have `docker` and `nextflow`. Setup a `kraken2` database (see below), and run the pipeline:
 
@@ -27,13 +25,20 @@ nextflow run angelovangel/nextflow-kraken2 --help
 
 ```
 
-### Main arguments
-
-See output of `nextflow run angelovangel/nextflow-kraken2 --help`
+For all the arguments and how to use them see the output of `nextflow run angelovangel/nextflow-kraken2 --help`
 
 ### Output
 
 All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with Nanopore reads from the Loman's lab [Nanopore GridION Mock Microbial Community Data Community Release](https://github.com/LomanLab/mockcommunity) can be found under `example_output` in this repository.
+
+The outputs are:
+
+- `fastp_timmed/ ` - directory with fastq files after trimming
+- `samplename_kraken2.report` - kraken2 report file, one per sample
+- `samplename_kraken2_bracken_species.report` - bracken-corrected kraken2 report, one per sample
+- `samplename_bracken.table`- 
+- `samplename_bracken.html`- 
+- `krona/kraken2taxonomy_krona.html`- 
 
 ## Download and setup of a `kraken2` database
 

@@ -8,7 +8,7 @@ library(data.table)
 library(dplyr)
 library(tidyr)
 library(DT)
-#library(apexcharter) # too complicated, not used
+#library(apexcharter) # too complicated, not used, use heatmaply instead?
 
 arg <- commandArgs(trailingOnly = TRUE)
 

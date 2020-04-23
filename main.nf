@@ -239,11 +239,12 @@ process krona {
         file("krona_db/taxonomy.tab") from krona_db_ch
     
     output:
-        file("*.html")
+        file("krona/kraken2_taxonomy_krona.html")
     
     script:
     """
-    ktImportTaxonomy $x -o kraken2_taxonomy_krona.html -tax krona_db
+    mkdir krona
+    ktImportTaxonomy $x -o krona/kraken2_taxonomy_krona.html -tax krona_db
     """
 }
 
