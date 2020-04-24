@@ -32,9 +32,10 @@ bracken2summary <- function(files) {
   # top 10 species for each sample, saved as wide
   dfw_top10 <- df %>%
     group_by(id) %>%
-    top_n(10, fraction_total_reads) %>%
+    top_n(10, fraction_total_reads) %>% # take top10 of each sample
     tidyr::pivot_wider(names_from = id, 
-                       values_from = fraction_total_reads) 
+                       values_from = fraction_total_reads) %>%
+    head(50) # take max 50 rows of the table
                       # values_fill = list(fraction_total_reads = 0))
   #----
   # make and save datatable widget 
@@ -57,7 +58,11 @@ bracken2summary <- function(files) {
   # # make and save heatplot for top10 taxa for samples >=2 and < 24
    if(length(files) >= 2 & length(files) <= 24) {
      data.frame(row.names = dfw_top10$name, dfw_top10[,-1]) %>% 
-       d3heatmap(colors = "YlOrRd", Rowv = FALSE, show_grid = 1)  %>%
+       d3heatmap(colors = "YlOrRd", 
+                 Rowv = FALSE, 
+                 show_grid = 1, 
+                 xaxis_font_size = "10px", 
+                 yaxis_font_size = "10px")  %>%
        DT::saveWidget(file = "bracken_summary_heatmap.html")
      }
   
