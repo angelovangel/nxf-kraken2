@@ -34,11 +34,12 @@ All output files are in the folder `results-kraken2`, which is in the folder wit
 The outputs are:
 
 - `fastp_timmed/` - directory with fastq files after trimming
+- `krona/kraken2taxonomy_krona.html`- 
+- 
 - `samplename_kraken2.report` - kraken2 report file, one per sample
 - `samplename_kraken2_bracken_species.report` - bracken-corrected kraken2 report, one per sample
 - `samplename_bracken.table`- 
 - `samplename_bracken.html`- 
-- `krona/kraken2taxonomy_krona.html`- 
 
 ## Download and setup of a `kraken2` database
 

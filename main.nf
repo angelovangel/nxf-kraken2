@@ -112,13 +112,13 @@ process fastp {
 
     tag "fastp on $sample_id"
     //echo true
-    publishDir params.outdir, mode: 'copy', pattern: 'fastp_trimmed/*' // publish only trimmed fastq files
+    publishDir "${params.outdir}/trimmed_fastq", mode: 'copy', pattern: 'trim_*' // publish only trimmed fastq files
 
     input:
         tuple sample_id, file(x) from read_ch
     
     output:
-        tuple sample_id, file('fastp_trimmed/trim_*') into fastp_ch
+        tuple sample_id, file('trim_*') into fastp_ch
 
 
     script:
@@ -128,22 +128,20 @@ process fastp {
     if ( !single ) {
         seqmode = "PE"
         """
-        mkdir fastp_trimmed
         fastp \
         -q $qscore_cutoff \
         -i ${x[0]} -I ${x[1]} \
-        -o fastp_trimmed/trim_${x[0]} -O fastp_trimmed/trim_${x[1]} \
+        -o trim_${x[0]} -O trim_${x[1]} \
         -j ${sample_id}_fastp.json
         """
     } 
     else {
         seqmode = "SE"
         """
-        mkdir fastp_trimmed
         fastp \
         -q $qscore_cutoff \
         -i ${x} \
-        -o fastp_trimmed/trim_${x} \
+        -o trim_${x} \
         -j ${sample_id}_fastp.json
         """
     }
@@ -160,7 +158,7 @@ process fastp {
 process kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
-    publishDir params.outdir, mode: 'copy', pattern: '*.{report,table}'
+    publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.{report,table}'
     
     input:
         path krakendb from "${params.database}" //this db is not in the docker image
@@ -239,12 +237,12 @@ process krona {
         file("krona_db/taxonomy.tab") from krona_db_ch
     
     output:
-        file("krona/kraken2_taxonomy_krona.html")
+        file("kraken2_taxonomy_krona.html")
     
     script:
     """
     mkdir krona
-    ktImportTaxonomy $x -o krona/kraken2_taxonomy_krona.html -tax krona_db
+    ktImportTaxonomy $x -o kraken2_taxonomy_krona.html -tax krona_db
     """
 }
 
@@ -252,7 +250,7 @@ process krona {
 
 process DataTables1 {
     tag "DataTables1 on $sample_id"
-    publishDir params.outdir, mode: 'copy', pattern: '*.html'
+    publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.html'
 
     input:
         tuple sample_id, file(x) from bracken2dt_ch
@@ -273,7 +271,7 @@ process DataTables2 {
     input:
         file(x) from bracken2summary_ch.collect() //this gives all the bracken table files as params to the script
     output:
-        file("*.html") optional true // for >= 6 samples html is not generated
+        file("*.html") optional true // for some sample numbers html is not generated
         file("*.csv")
 
 // the bracken2summary.R decides what to output depending on number of samples
