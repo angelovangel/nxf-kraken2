@@ -13,4 +13,4 @@ dependencies:
   - r-dplyr
   - r-tidyr
   - r-dt
-  - r-heatmaply
+  - r-d3heatmap

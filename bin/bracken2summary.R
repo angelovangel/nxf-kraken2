@@ -8,8 +8,8 @@ library(data.table)
 library(dplyr)
 library(tidyr)
 library(DT)
-library(heatmaply)
-#library(apexcharter) # too complicated, not used, use heatmaply instead
+library(d3heatmap)
+
 
 arg <- commandArgs(trailingOnly = TRUE)
 
@@ -34,12 +34,12 @@ bracken2summary <- function(files) {
     group_by(id) %>%
     top_n(10, fraction_total_reads) %>%
     tidyr::pivot_wider(names_from = id, 
-                       values_from = fraction_total_reads, 
-                       values_fill = list(fraction_total_reads = 0))
+                       values_from = fraction_total_reads) 
+                      # values_fill = list(fraction_total_reads = 0))
   #----
   # make and save datatable widget 
-  # only if samples <= 6 
-  if(length(files) <= 6) {
+  # only if samples <= 12
+  if(length(files) <= 12) {
     dfw %>%
       datatable(class = 'hover row-border order-column', 
                 extensions = 'Buttons',
@@ -54,14 +54,12 @@ bracken2summary <- function(files) {
     }
   
   #----
-  # make and save heatplot for top10 taxa for samples >=2 and < 24
-  if(length(files) >= 2 & length(files) <= 24) {
-    data.frame(row.names = dfw_top10$name, dfw_top10[,-1]) %>% 
-      heatmaply(colors = hcl.colors(100, palette = "Grays", rev = T), 
-                show_dendrogram = c(F,T), 
-                file = "bracken_summary_heatmap.html"
-      )
-    }
+  # # make and save heatplot for top10 taxa for samples >=2 and < 24
+   if(length(files) >= 2 & length(files) <= 24) {
+     data.frame(row.names = dfw_top10$name, dfw_top10[,-1]) %>% 
+       d3heatmap(colors = "YlOrRd", Rowv = FALSE, show_grid = 1)  %>%
+       DT::saveWidget(file = "bracken_summary_heatmap.html")
+     }
   
 }
 # execute the function

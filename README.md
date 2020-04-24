@@ -29,11 +29,11 @@ For all the arguments and how to use them see the output of `nextflow run angelo
 
 ### Output
 
-All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with Nanopore reads from the Loman's lab [Nanopore GridION Mock Microbial Community Data Community Release](https://github.com/LomanLab/mockcommunity) can be found under `example_output` in this repository.
+All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be found under `example_output` in this repository.
 
 The outputs are:
 
-- `fastp_timmed/ ` - directory with fastq files after trimming
+- `fastp_timmed/` - directory with fastq files after trimming
 - `samplename_kraken2.report` - kraken2 report file, one per sample
 - `samplename_kraken2_bracken_species.report` - bracken-corrected kraken2 report, one per sample
 - `samplename_bracken.table`- 
@@ -48,4 +48,4 @@ Get the minikraken2 database, e.g. from [here](https://ccb.jhu.edu/software/krak
 tar -xzvf minikraken_8GB_202003.tgz
 ```
 
-The pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250).
+This pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250).
