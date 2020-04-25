@@ -25,8 +25,8 @@ bracken2summary <- function(files) {
   #this is a wide form, for datatable
   dfw <- df %>%
       tidyr::pivot_wider(names_from = id, 
-                       values_from = fraction_total_reads, 
-                       values_fill = list(fraction_total_reads = 0))  # fill 0 if no value there
+                       values_from = fraction_total_reads)
+                       #values_fill = list(fraction_total_reads = 0))  # fill 0 if no value there
   dfw %>% fwrite("bracken_summary_wide.csv")
   
   # top 10 species for each sample, saved as wide
@@ -60,7 +60,8 @@ bracken2summary <- function(files) {
      data.frame(row.names = dfw_top10$name, dfw_top10[,-1]) %>% 
        d3heatmap(colors = "YlOrRd", 
                  Rowv = FALSE, 
-                 show_grid = 1, 
+                 show_grid = 1,
+                 dendrogram = 'none',
                  xaxis_font_size = "10px", 
                  yaxis_font_size = "10px")  %>%
        DT::saveWidget(file = "bracken_summary_heatmap.html")

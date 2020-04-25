@@ -21,6 +21,7 @@ ANSI_RESET = "\033[0m"
 params.readsdir = "fastq"
 params.outdir = "${params.readsdir}/results-kraken2" // output is where the reads are because it is easier to integrate with shiny later
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
+params.readlen = 150
 params.ontreads = false
 params.database = "$HOME/db/minikraken_8GB_20200312"
 params.weakmem = false
@@ -55,6 +56,7 @@ log.info """
          --readsdir         : ${params.readsdir}
          --fqpattern        : ${params.fqpattern}
          --ontreads         : ${params.ontreads}
+         --readlen          : ${params.readlen}
          --outdir           : ${params.outdir}
          --database         : ${params.database}
          --weakmem          : ${params.weakmem}
@@ -82,13 +84,14 @@ log.info """
 
          Usage:
         -------------------------------------------
-         --readsdir         : directory with fastq files, default is "fastq"
-         --fqpattern        : regex pattern to match fastq files, default is "*_R{1,2}_001.fastq.gz"
-         --ontreads         : logical, set to true in case of Nanopore reads, default is false
-         --outdir           : where results will be saved, default is "results-fastp"
-         --database         : kraken2 database, default is ${params.database}
-         --weakmem          : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
-         --taxlevel         : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
+         --readsdir     : directory with fastq files, default is "fastq"
+         --fqpattern    : regex pattern to match fastq files, default is "*_R{1,2}_001.fastq.gz"
+         --ontreads     : logical, set to true in case of Nanopore reads, default is false
+         --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
+         --outdir       : where results will be saved, default is "results-fastp"
+         --database     : kraken2 database, default is ${params.database}
+         --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
+         --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
         ===========================================
          """
          .stripIndent()
@@ -173,7 +176,7 @@ process kraken2 {
     script:
     def single = x instanceof Path
     def memory = params.weakmem ? "--memory-mapping" : ""  // use --memory-mapping to avoid loading db in ram on weak systems
-    def readlen = params.ontreads ? 250 : 100 // and here ontreads matters. Dlt for -r is 100 in bracken, Dilthey used 1k in his paper
+    def rlength = params.ontreads ? 250 : params.readlen // and here ontreads matters. Default for -r is 100 in bracken, Dilthey used 1k in his paper
     if ( !single ) {
         """
         kraken2 \
@@ -186,7 +189,7 @@ process kraken2 {
 
         bracken \
             -d $krakendb \
-            -r $readlen \
+            -r $rlength \
             -i ${sample_id}_kraken2.report \
             -l ${params.taxlevel} \
             -o ${sample_id}_bracken.tsv
@@ -204,7 +207,7 @@ process kraken2 {
 
         bracken \
             -d $krakendb \
-            -r $readlen \
+            -r $rlength \
             -i ${sample_id}_kraken2.report \
             -l ${params.taxlevel} \
             -o ${sample_id}_bracken.tsv
@@ -280,4 +283,23 @@ process DataTables2 {
     """
     bracken2summary.R $x
     """
+}
+
+//=============================
+workflow.onComplete {
+    if (workflow.success) {
+        log.info """
+            ===========================================
+            Output files are here:   ==> ${ANSI_GREEN}$params.outdir${ANSI_RESET}
+            ===========================================
+            """
+            .stripIndent()
+    }
+    else {
+        log.info """
+            ===========================================
+            ${ANSI_RED}Finished with errors!${ANSI_RESET}
+            """
+            .stripIndent()
+    }
 }

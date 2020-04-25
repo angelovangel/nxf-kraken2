@@ -36,8 +36,8 @@ The outputs are:
 - `timmed_fastq/` - directory with fastq files after trimming, these are also used for taxonomic profiling
 - `bracken_summary_heatmap/table.html`- standalone html files with summary information from bracken. Note that these files will be generated only if there are less than 24 samples
 - `bracken_summary_long/wide.csv`- summary bracken information (all found taxa in all samples), in different formats
-- `kraken2taxonomy_krona.html`-  an interactive Krona plot of the kraken2 output
-- `samples/` - directory with individual (per sample) kraken2 and bracken-corrected report files (*.report) and with the abundance table from bracken (as html and tsv). *Tip: the report files can be directly imported in [Pavian](https://github.com/fbreitwieser/pavian) for nice interactive visualizations.
+- `kraken2taxonomy_krona.html`-  an interactive Krona plot of the kraken2 output for all samples
+- `samples/` - directory with individual (per sample) kraken2 and bracken-corrected report files and with the abundance table from bracken (as html and tsv). *Tip: the report files can be directly imported in [Pavian](https://github.com/fbreitwieser/pavian) for nice interactive visualizations*.
 
 ## Download and setup of a `kraken2` database
 
@@ -51,7 +51,8 @@ This pre-built minikraken2 database has the required Bracken files included (for
 
 ## References
 
-This pipeline just uses some really nice work from others:   
+This pipeline just uses some really nice work from others:
+
 
 <a id="1">[1]</a> 
 P. Di Tommaso, et al. Nextflow enables reproducible computational workflows. Nature Biotechnology 35, 316–319 (2017) https://doi.org/10.1038/nbt.3820
@@ -63,4 +64,4 @@ Wood, D.E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. G
 Lu J, Breitwieser FP, Thielen P, Salzberg SL. 2017. Bracken: estimating species abundance in metagenomics data. PeerJ Computer Science 3:e104 https://doi.org/10.7717/peerj-cs.104
 
 <a id="4">[4]</a> 
-Ondov BD, Bergman NH, Phillippy AM. Interactive metagenomic visualization in a Web browser. BMC Bioinformatics. 2011;12:385. Published 2011 Sep 30. doi:10.1186/1471-2105-12-385
+Ondov BD, Bergman NH, Phillippy AM. Interactive metagenomic visualization in a Web browser. BMC Bioinformatics. 2011;12:385. Published 2011 Sep 30. https://doi.org/10.1186/1471-2105-12-385
