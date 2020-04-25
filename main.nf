@@ -98,6 +98,19 @@ log.info """
 
 }
 
+// because all is from conda, get versions from there. Note double escape for OR
+process SoftwareVersions {
+    publishDir "${params.outdir}/software_versions", mode: 'copy'
+
+    output:
+        file("software_versions.txt")
+
+    script:
+    """
+    conda list | grep 'fastp\\|kraken2\\|bracken\\|krona\\|r-data.table\\|r-dplyr\\|r-tidyr\\|r-dt\\|r-d3heatmap\\|r-base' > software_versions.txt
+    """
+}
+
 /* 
  * channels for kraken2 with reads (single- or pair-end) and database
  */

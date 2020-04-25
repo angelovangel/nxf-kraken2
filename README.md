@@ -47,7 +47,7 @@ Get the minikraken2 database, e.g. from [here](https://ccb.jhu.edu/software/krak
 tar -xzvf minikraken_8GB_202003.tgz
 ```
 
-This pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250).
+This pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). The pipeline works well also for analysis of 16S amplicon data - get one of the [pre-built kraken2 databases](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) and use the correct`--readlen` parameter. Although still controversial, [recent work](https://www.biorxiv.org/content/10.1101/2020.03.27.012047v1) has shown that kraken2 may be performing better than QIIME in this.
 
 ## References
 

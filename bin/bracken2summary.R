@@ -50,7 +50,7 @@ bracken2summary <- function(files) {
                              pageLength = 20), 
                 filter = 'top', 
                 selection = 'single') %>% 
-      formatPercentage(c(2,3), digits = 2) %>%
+      formatPercentage(c(2:ncol(dfw)), digits = 2) %>% #format all columns as percent
       DT::saveWidget(file = "bracken_summary_table.html")
     }
   
