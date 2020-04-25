@@ -43,6 +43,7 @@ The outputs are:
 
 Get the minikraken2 database, e.g. from [here](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads), put it in a suitable folder ($HOME/db/) and untar:
 
+
 ```bash
 tar -xzvf minikraken_8GB_202003.tgz
 ```
