@@ -1,0 +1,119 @@
+id,name,fraction_total_reads
+minigut_sample2_bracken,Acinetobacter baumannii,0.66236
+minigut_sample1_bracken,Bacteroides fragilis,0.57903
+minigut_sample1_bracken,Escherichia coli,0.37215
+minigut_sample2_bracken,Pseudomonas aeruginosa,0.04888
+minigut_sample2_bracken,Staphylococcus epidermidis,0.03909
+minigut_sample2_bracken,Staphylococcus aureus,0.03886
+minigut_sample2_bracken,Listeria monocytogenes,0.03336
+minigut_sample2_bracken,Bacteroides vulgatus,0.02673
+minigut_sample2_bracken,Streptococcus mutans,0.02194
+minigut_sample2_bracken,Helicobacter pylori,0.01911
+minigut_sample2_bracken,Escherichia coli,0.01905
+minigut_sample2_bracken,Clostridium beijerinckii,0.01609
+minigut_sample1_bracken,Shigella flexneri,0.01575
+minigut_sample1_bracken,Shigella boydii,0.0155
+minigut_sample2_bracken,Methanobrevibacter smithii,0.01098
+minigut_sample2_bracken,Rhodobacter sphaeroides,0.00983
+minigut_sample2_bracken,Enterococcus faecalis,0.00919
+minigut_sample2_bracken,Deinococcus radiodurans,0.0073
+minigut_sample2_bracken,Neisseria meningitidis,0.00709
+minigut_sample2_bracken,Bacillus cereus,0.00692
+minigut_sample2_bracken,Cutibacterium acnes,0.00647
+minigut_sample2_bracken,Streptococcus pneumoniae,0.00381
+minigut_sample1_bracken,Shigella dysenteriae,0.00377
+minigut_sample1_bracken,Salmonella sp. S13,0.00341
+minigut_sample1_bracken,Shigella sonnei,0.00314
+minigut_sample1_bracken,Salmonella enterica,0.00291
+minigut_sample2_bracken,Acinetobacter nosocomialis,0.00243
+minigut_sample2_bracken,Streptococcus agalactiae,0.00139
+minigut_sample2_bracken,Acinetobacter pittii,0.00127
+minigut_sample2_bracken,Acinetobacter sp. FDAARGOS_493,0.00121
+minigut_sample2_bracken,Shigella sonnei,0.00104
+minigut_sample2_bracken,Lactobacillus gasseri,0.00097
+minigut_sample1_bracken,Escherichia fergusonii,0.00074
+minigut_sample1_bracken,Escherichia albertii,6e-04
+minigut_sample1_bracken,Klebsiella pneumoniae,0.00059
+minigut_sample2_bracken,Acinetobacter calcoaceticus,0.00055
+minigut_sample2_bracken,Bacillus sp. DU-106,0.00054
+minigut_sample2_bracken,Acinetobacter oleivorans,0.00043
+minigut_sample1_bracken,Citrobacter freundii,0.00035
+minigut_sample1_bracken,Escherichia sp. E4742,0.00031
+minigut_sample2_bracken,Clostridium diolis,0.00029
+minigut_sample2_bracken,Acinetobacter lactucae,0.00028
+minigut_sample1_bracken,Enterobacter hormaechei,0.00025
+minigut_sample2_bracken,Homo sapiens,0.00021
+minigut_sample1_bracken,Escherichia marmotae,0.00018
+minigut_sample1_bracken,Enterobacter asburiae,0.00014
+minigut_sample2_bracken,Bacillus thuringiensis,0.00013
+minigut_sample1_bracken,Citrobacter werkmanii,0.00012
+minigut_sample1_bracken,Enterobacteriaceae bacterium strain FGI 57,0.00011
+minigut_sample1_bracken,Raoultella terrigena,1e-04
+minigut_sample2_bracken,Acinetobacter lwoffii,9e-05
+minigut_sample2_bracken,Acinetobacter venetianus,9e-05
+minigut_sample2_bracken,Enterobacter roggenkampii,9e-05
+minigut_sample1_bracken,Klebsiella variicola,8e-05
+minigut_sample2_bracken,Acinetobacter sp. NCu2D-2,8e-05
+minigut_sample2_bracken,Acinetobacter dispersus,8e-05
+minigut_sample2_bracken,Acinetobacter radioresistens,8e-05
+minigut_sample1_bracken,Citrobacter rodentium,7e-05
+minigut_sample1_bracken,Leclercia adecarboxylata,7e-05
+minigut_sample2_bracken,Leclercia sp. W17,7e-05
+minigut_sample2_bracken,Escherichia marmotae,6e-05
+minigut_sample2_bracken,Acinetobacter sp. DUT-2,6e-05
+minigut_sample2_bracken,Staphylococcus virus 187,6e-05
+minigut_sample2_bracken,Bacillus bombysepticus,6e-05
+minigut_sample2_bracken,Escherichia albertii,6e-05
+minigut_sample1_bracken,Kosakonia arachidis,5e-05
+minigut_sample2_bracken,Pseudomonas putida,5e-05
+minigut_sample2_bracken,Neisseria lactamica,5e-05
+minigut_sample2_bracken,Bacillus wiedmannii,5e-05
+minigut_sample1_bracken,Proteus sp. ZN5,4e-05
+minigut_sample1_bracken,Dickeya paradisiaca,4e-05
+minigut_sample1_bracken,Kosakonia sacchari,4e-05
+minigut_sample1_bracken,Bacteroides salanitronis,4e-05
+minigut_sample1_bracken,Cronobacter sakazakii,4e-05
+minigut_sample2_bracken,Clostridium isatidis,4e-05
+minigut_sample2_bracken,Lactobacillus kullabergensis,4e-05
+minigut_sample2_bracken,Acinetobacter sp. TGL-Y2,4e-05
+minigut_sample2_bracken,Staphylothermus marinus,4e-05
+minigut_sample2_bracken,Acinetobacter sp. TTH0-4,4e-05
+minigut_sample2_bracken,Streptococcus suis,4e-05
+minigut_sample2_bracken,Pseudomonas kribbensis,4e-05
+minigut_sample2_bracken,Pseudomonas citronellolis,4e-05
+minigut_sample2_bracken,Staphylococcus lugdunensis,4e-05
+minigut_sample2_bracken,Candidatus Methylopumilus universalis,4e-05
+minigut_sample2_bracken,Pseudomonas mendocina,4e-05
+minigut_sample2_bracken,Staphylococcus caprae,4e-05
+minigut_sample2_bracken,Acinetobacter sp. WCHAc010034,4e-05
+minigut_sample2_bracken,Pandoraea sp. XY-2,4e-05
+minigut_sample2_bracken,Acinetobacter sp. ACNIH2,4e-05
+minigut_sample2_bracken,Clostridium sp. SYSU GA15002T,4e-05
+minigut_sample2_bracken,Acinetobacter ursingii,4e-05
+minigut_sample2_bracken,Acinetobacter bereziniae,4e-05
+minigut_sample2_bracken,Acinetobacter johnsonii,4e-05
+minigut_sample2_bracken,Acinetobacter defluvii,4e-05
+minigut_sample2_bracken,Pseudomonas sp. SCB32,4e-05
+minigut_sample2_bracken,Xanthomonas euvesicatoria,4e-05
+minigut_sample2_bracken,Moritella viscosa,4e-05
+minigut_sample2_bracken,Acinetobacter indicus,4e-05
+minigut_sample2_bracken,Stenotrophomonas sp. G4,4e-05
+minigut_sample2_bracken,Acinetobacter sp. ACNIH1,4e-05
+minigut_sample2_bracken,Thermoanaerobacterium thermosaccharolyticum,4e-05
+minigut_sample2_bracken,Clostridium saccharobutylicum,4e-05
+minigut_sample1_bracken,Leclercia sp. J807,3e-05
+minigut_sample1_bracken,Citrobacter sp. SNU WT2,3e-05
+minigut_sample1_bracken,Klebsiella aerogenes,3e-05
+minigut_sample1_bracken,Enterobacter sp. E76,2e-05
+minigut_sample1_bracken,Barnesiella viscericola,2e-05
+minigut_sample1_bracken,Lelliottia amnigena,2e-05
+minigut_sample1_bracken,Pluralibacter gergoviae,2e-05
+minigut_sample1_bracken,Nitrincola sp. KXZD1103,2e-05
+minigut_sample1_bracken,Lelliottia jeotgali,2e-05
+minigut_sample1_bracken,Muribaculum sp. TLL-A4,2e-05
+minigut_sample1_bracken,Buttiauxella sp. 3AFRM03,2e-05
+minigut_sample1_bracken,Pseudescherichia vulneris,2e-05
+minigut_sample1_bracken,Bacillus cereus,2e-05
+minigut_sample1_bracken,Pasteurella multocida,2e-05
+minigut_sample1_bracken,Serratia fonticola,2e-05
+minigut_sample1_bracken,Bacteroides vulgatus,2e-05

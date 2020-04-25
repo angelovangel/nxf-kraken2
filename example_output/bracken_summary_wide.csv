@@ -1,0 +1,113 @@
+name,minigut_sample2_bracken,minigut_sample1_bracken
+Acinetobacter baumannii,0.66236,
+Bacteroides fragilis,,0.57903
+Escherichia coli,0.01905,0.37215
+Pseudomonas aeruginosa,0.04888,
+Staphylococcus epidermidis,0.03909,
+Staphylococcus aureus,0.03886,
+Listeria monocytogenes,0.03336,
+Bacteroides vulgatus,0.02673,2e-05
+Streptococcus mutans,0.02194,
+Helicobacter pylori,0.01911,
+Clostridium beijerinckii,0.01609,
+Shigella flexneri,,0.01575
+Shigella boydii,,0.0155
+Methanobrevibacter smithii,0.01098,
+Rhodobacter sphaeroides,0.00983,
+Enterococcus faecalis,0.00919,
+Deinococcus radiodurans,0.0073,
+Neisseria meningitidis,0.00709,
+Bacillus cereus,0.00692,2e-05
+Cutibacterium acnes,0.00647,
+Streptococcus pneumoniae,0.00381,
+Shigella dysenteriae,,0.00377
+Salmonella sp. S13,,0.00341
+Shigella sonnei,0.00104,0.00314
+Salmonella enterica,,0.00291
+Acinetobacter nosocomialis,0.00243,
+Streptococcus agalactiae,0.00139,
+Acinetobacter pittii,0.00127,
+Acinetobacter sp. FDAARGOS_493,0.00121,
+Lactobacillus gasseri,0.00097,
+Escherichia fergusonii,,0.00074
+Escherichia albertii,6e-05,6e-04
+Klebsiella pneumoniae,,0.00059
+Acinetobacter calcoaceticus,0.00055,
+Bacillus sp. DU-106,0.00054,
+Acinetobacter oleivorans,0.00043,
+Citrobacter freundii,,0.00035
+Escherichia sp. E4742,,0.00031
+Clostridium diolis,0.00029,
+Acinetobacter lactucae,0.00028,
+Enterobacter hormaechei,,0.00025
+Homo sapiens,0.00021,
+Escherichia marmotae,6e-05,0.00018
+Enterobacter asburiae,,0.00014
+Bacillus thuringiensis,0.00013,
+Citrobacter werkmanii,,0.00012
+Enterobacteriaceae bacterium strain FGI 57,,0.00011
+Raoultella terrigena,,1e-04
+Acinetobacter lwoffii,9e-05,
+Acinetobacter venetianus,9e-05,
+Enterobacter roggenkampii,9e-05,
+Klebsiella variicola,,8e-05
+Acinetobacter sp. NCu2D-2,8e-05,
+Acinetobacter dispersus,8e-05,
+Acinetobacter radioresistens,8e-05,
+Citrobacter rodentium,,7e-05
+Leclercia adecarboxylata,,7e-05
+Leclercia sp. W17,7e-05,
+Acinetobacter sp. DUT-2,6e-05,
+Staphylococcus virus 187,6e-05,
+Bacillus bombysepticus,6e-05,
+Kosakonia arachidis,,5e-05
+Pseudomonas putida,5e-05,
+Neisseria lactamica,5e-05,
+Bacillus wiedmannii,5e-05,
+Proteus sp. ZN5,,4e-05
+Dickeya paradisiaca,,4e-05
+Kosakonia sacchari,,4e-05
+Bacteroides salanitronis,,4e-05
+Cronobacter sakazakii,,4e-05
+Clostridium isatidis,4e-05,
+Lactobacillus kullabergensis,4e-05,
+Acinetobacter sp. TGL-Y2,4e-05,
+Staphylothermus marinus,4e-05,
+Acinetobacter sp. TTH0-4,4e-05,
+Streptococcus suis,4e-05,
+Pseudomonas kribbensis,4e-05,
+Pseudomonas citronellolis,4e-05,
+Staphylococcus lugdunensis,4e-05,
+Candidatus Methylopumilus universalis,4e-05,
+Pseudomonas mendocina,4e-05,
+Staphylococcus caprae,4e-05,
+Acinetobacter sp. WCHAc010034,4e-05,
+Pandoraea sp. XY-2,4e-05,
+Acinetobacter sp. ACNIH2,4e-05,
+Clostridium sp. SYSU GA15002T,4e-05,
+Acinetobacter ursingii,4e-05,
+Acinetobacter bereziniae,4e-05,
+Acinetobacter johnsonii,4e-05,
+Acinetobacter defluvii,4e-05,
+Pseudomonas sp. SCB32,4e-05,
+Xanthomonas euvesicatoria,4e-05,
+Moritella viscosa,4e-05,
+Acinetobacter indicus,4e-05,
+Stenotrophomonas sp. G4,4e-05,
+Acinetobacter sp. ACNIH1,4e-05,
+Thermoanaerobacterium thermosaccharolyticum,4e-05,
+Clostridium saccharobutylicum,4e-05,
+Leclercia sp. J807,,3e-05
+Citrobacter sp. SNU WT2,,3e-05
+Klebsiella aerogenes,,3e-05
+Enterobacter sp. E76,,2e-05
+Barnesiella viscericola,,2e-05
+Lelliottia amnigena,,2e-05
+Pluralibacter gergoviae,,2e-05
+Nitrincola sp. KXZD1103,,2e-05
+Lelliottia jeotgali,,2e-05
+Muribaculum sp. TLL-A4,,2e-05
+Buttiauxella sp. 3AFRM03,,2e-05
+Pseudescherichia vulneris,,2e-05
+Pasteurella multocida,,2e-05
+Serratia fonticola,,2e-05

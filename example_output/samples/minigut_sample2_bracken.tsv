@@ -1,0 +1,75 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Clostridium isatidis	182773	S	1	0	1	0.00004
+Escherichia marmotae	1499973	S	1	0	1	0.00006
+Acinetobacter sp. NCu2D-2	1608473	S	1	0	1	0.00008
+Shigella sonnei	624	S	1	24	25	0.00104
+Lactobacillus kullabergensis	1218493	S	1	0	1	0.00004
+Acinetobacter sp. TGL-Y2	1407071	S	1	0	1	0.00004
+Staphylothermus marinus	2280	S	1	0	1	0.00004
+Acinetobacter dispersus	70348	S	2	0	2	0.00008
+Leclercia sp. W17	2282309	S	1	0	1	0.00007
+Acinetobacter sp. TTH0-4	1646498	S	1	0	1	0.00004
+Streptococcus suis	1307	S	1	0	1	0.00004
+Bacillus thuringiensis	1428	S	1	2	3	0.00013
+Acinetobacter pittii	48296	S	25	5	30	0.00127
+Acinetobacter lactucae	1785128	S	6	0	6	0.00028
+Pseudomonas kribbensis	1628086	S	1	0	1	0.00004
+Pseudomonas citronellolis	53408	S	1	0	1	0.00004
+Streptococcus pneumoniae	1313	S	62	29	91	0.00381
+Helicobacter pylori	210	S	461	0	461	0.01911
+Staphylococcus lugdunensis	28035	S	1	0	1	0.00004
+Acinetobacter sp. FDAARGOS_493	2420300	S	7	22	29	0.00121
+Candidatus Methylopumilus universalis	2588536	S	1	0	1	0.00004
+Homo sapiens	9606	S	5	0	5	0.00021
+Acinetobacter nosocomialis	106654	S	53	5	58	0.00243
+Acinetobacter sp. DUT-2	1809055	S	1	0	1	0.00006
+Acinetobacter lwoffii	28090	S	2	0	2	0.00009
+Pseudomonas mendocina	300	S	1	0	1	0.00004
+Staphylococcus caprae	29380	S	1	0	1	0.00004
+Clostridium beijerinckii	1520	S	322	66	388	0.01609
+Bacillus sp. DU-106	2080759	S	2	11	13	0.00054
+Bacillus cereus	1396	S	41	126	167	0.00692
+Acinetobacter sp. WCHAc010034	1879049	S	1	0	1	0.00004
+Pandoraea sp. XY-2	2518599	S	1	0	1	0.00004
+Escherichia coli	562	S	20	439	459	0.01905
+Acinetobacter sp. ACNIH2	1758189	S	1	0	1	0.00004
+Clostridium sp. SYSU GA15002T	2587161	S	1	0	1	0.00004
+Staphylococcus virus 187	55511	S	1	0	1	0.00006
+Acinetobacter ursingii	108980	S	1	0	1	0.00004
+Acinetobacter venetianus	52133	S	2	0	2	0.00009
+Streptococcus agalactiae	1311	S	4	29	33	0.00139
+Acinetobacter bereziniae	106648	S	1	0	1	0.00004
+Acinetobacter johnsonii	40214	S	1	0	1	0.00004
+Methanobrevibacter smithii	2173	S	265	0	265	0.01098
+Acinetobacter radioresistens	40216	S	2	0	2	0.00008
+Pseudomonas putida	303	S	1	0	1	0.00005
+Acinetobacter defluvii	1871111	S	1	0	1	0.00004
+Streptococcus mutans	1309	S	460	69	529	0.02194
+Lactobacillus gasseri	1596	S	21	2	23	0.00097
+Pseudomonas sp. SCB32	2653853	S	1	0	1	0.00004
+Neisseria meningitidis	487	S	149	22	171	0.00709
+Neisseria lactamica	486	S	1	0	1	0.00005
+Xanthomonas euvesicatoria	456327	S	1	0	1	0.00004
+Acinetobacter oleivorans	1148157	S	10	0	10	0.00043
+Moritella viscosa	80854	S	1	0	1	0.00004
+Acinetobacter indicus	756892	S	1	0	1	0.00004
+Cutibacterium acnes	1747	S	156	0	156	0.00647
+Enterococcus faecalis	1351	S	217	4	221	0.00919
+Staphylococcus aureus	1280	S	858	79	937	0.03886
+Bacillus bombysepticus	658666	S	1	0	1	0.00006
+Staphylococcus epidermidis	1282	S	932	11	943	0.03909
+Rhodobacter sphaeroides	1063	S	237	0	237	0.00983
+Escherichia albertii	208962	S	1	0	1	0.00006
+Stenotrophomonas sp. G4	2303750	S	1	0	1	0.00004
+Acinetobacter baumannii	470	S	9821	6161	15982	0.66236
+Acinetobacter calcoaceticus	471	S	13	0	13	0.00055
+Acinetobacter sp. ACNIH1	1636603	S	1	0	1	0.00004
+Pseudomonas aeruginosa	287	S	406	773	1179	0.04888
+Bacillus wiedmannii	1890302	S	1	0	1	0.00005
+Listeria monocytogenes	1639	S	788	16	804	0.03336
+Enterobacter roggenkampii	1812935	S	1	1	2	0.00009
+Thermoanaerobacterium thermosaccharolyticum	1517	S	1	0	1	0.00004
+Clostridium diolis	223919	S	2	4	6	0.00029
+Bacteroides vulgatus	821	S	603	42	645	0.02673
+Deinococcus radiodurans	1299	S	176	0	176	0.00730
+Clostridium saccharobutylicum	169679	S	1	0	1	0.00004
