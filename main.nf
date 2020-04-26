@@ -107,7 +107,14 @@ process SoftwareVersions {
 
     script:
     """
-    conda list | grep 'fastp\\|kraken2\\|bracken\\|krona\\|r-data.table\\|r-dplyr\\|r-tidyr\\|r-dt\\|r-d3heatmap\\|r-base' > software_versions.txt
+    conda list | \
+    grep 'fastp\\|kraken2\\|bracken\\|krona\\|r-data.table\\|r-dplyr\\|r-tidyr\\|r-dt\\|r-d3heatmap\\|r-base' \
+    >tempfile
+
+    echo 'nextflow\t$nextflow.version\t$nextflow.build' >> tempfile
+    
+    # replace blanks with tab for easier processing downstream
+    tr -s '[:blank:]' '\t' < tempfile > software_versions.txt
     """
 }
 
