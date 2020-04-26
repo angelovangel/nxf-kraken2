@@ -1,5 +1,5 @@
 ![docker build](https://img.shields.io/docker/cloud/build/aangeloo/kraken2?style=flat-square)
-![docker pulls](https://img.shields.io/docker/pulls/aangeloo/kraken2)
+![docker pulls](https://img.shields.io/docker/pulls/aangeloo/kraken2?style=flat-square)
 ![gh last commit](https://img.shields.io/github/last-commit/angelovangel/nextflow-kraken2?style=flat-square)
 # nextflow-kraken2
 
@@ -32,7 +32,7 @@ For all the arguments and how to use them see the output of `nextflow run angelo
 
 ## Output
 
-All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be found under `example_output` in this repository.
+All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be downloaded [here](https://www.dropbox.com/s/z6ditk7xsyw9wo4/results-kraken2.zip?dl=0).
 
 The outputs are:
 
