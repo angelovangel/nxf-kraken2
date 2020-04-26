@@ -1,5 +1,6 @@
 ![docker build](https://img.shields.io/docker/cloud/build/aangeloo/kraken2?style=flat-square)
-
+![docker pulls](https://img.shields.io/docker/pulls/aangeloo/kraken2)
+![gh last commit](https://img.shields.io/github/last-commit/angelovangel/nextflow-kraken2?style=flat-square)
 # nextflow-kraken2
 
 A relatively simple metagenomics analysis pipeline written in nextflow [[1]](#1). The pipeline is based on `kraken2` and `bracken`, and is supplemented with `Krona` visualizations and interactive html tables.
