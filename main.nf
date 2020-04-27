@@ -86,7 +86,7 @@ log.info """
         -------------------------------------------
          --readsdir     : directory with fastq files, default is "fastq"
          --fqpattern    : regex pattern to match fastq files, default is "*_R{1,2}_001.fastq.gz"
-         --ontreads     : logical, set to true in case of Nanopore reads, default is false
+         --ontreads     : logical, set to true in case of Nanopore reads, default is false. This parameter has influence on fastp -q and bracken -r
          --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
          --outdir       : where results will be saved, default is "results-fastp"
          --database     : kraken2 database, default is ${params.database}
