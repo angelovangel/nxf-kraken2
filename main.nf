@@ -23,7 +23,7 @@ params.outdir = "${params.readsdir}/results-kraken2" // output is where the read
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.readlen = 150
 params.ontreads = false
-params.database = "$HOME/db/minikraken_8GB_20200312"
+params.database = ""
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
 params.help = ""
@@ -171,6 +171,23 @@ process fastp {
 
 }
 
+// setup kraken2 database, use url to tar.gz db
+// input with ftp:// path downloads and stages the file
+// input with absolute path stages the file downloaded previously
+
+process kraken2_db {
+input:
+    path kraken_file from "${params.database}" 
+
+output:
+    path "**", type: 'dir' into kraken2_db_ch // so simple to put a directory in a channel
+
+script:
+"""
+tar -xf $kraken_file
+"""
+}
+
 
 /* 
  run kraken2 AND bracken 
@@ -184,7 +201,7 @@ process kraken2 {
     publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.{report,tsv}'
     
     input:
-        path krakendb from "${params.database}" //this db is not in the docker image
+        path db from kraken2_db_ch //this db is not in the docker image
         tuple sample_id, file(x) from fastp_ch
     
     output:
@@ -200,7 +217,7 @@ process kraken2 {
     if ( !single ) {
         """
         kraken2 \
-            -db $krakendb \
+            -db $db \
             $memory \
             --report ${sample_id}_kraken2.report \
             --paired ${x[0]} ${x[1]} \
@@ -208,7 +225,7 @@ process kraken2 {
         cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
 
         bracken \
-            -d $krakendb \
+            -d $db \
             -r $rlength \
             -i ${sample_id}_kraken2.report \
             -l ${params.taxlevel} \
@@ -218,7 +235,7 @@ process kraken2 {
     else {
         """
         kraken2 \
-             -db ${params.database} \
+             -db $db \
              $memory \
             --report ${sample_id}_kraken2.report \
             ${x} \
@@ -226,7 +243,7 @@ process kraken2 {
         cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
 
         bracken \
-            -d $krakendb \
+            -d $db \
             -r $rlength \
             -i ${sample_id}_kraken2.report \
             -l ${params.taxlevel} \
