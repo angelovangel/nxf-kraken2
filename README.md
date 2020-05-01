@@ -10,14 +10,14 @@ A relatively simple metagenomics analysis pipeline written in nextflow [[1]](#1)
 The pipeline runs in a docker container by default. Both Illumina and Nanopore (but not hybrid) data can be processed. For a set of `fastq` files it executes:
 
 - [`fastp`](https://github.com/OpenGene/fastp) - filter and trim reads with default parameters
-- [`kraken2`](http://ccb.jhu.edu/software/kraken2/) [[2]](#2) - taxonomic assignment of the reads  (you have to setup your kraken2 database separately, it is not included in the container image)
+- [`kraken2`](http://ccb.jhu.edu/software/kraken2/) [[2]](#2) - taxonomic assignment of the reads 
 - [`bracken`](http://ccb.jhu.edu/software/bracken/) [[3]](#3) - abundance estimation at a single level in the taxonomic tree, e.g. species
 - [`krona`](https://github.com/marbl/Krona/wiki) [[4]](#4) - plots are generated from the output of `kraken2`
 - [`DataTables`](https://datatables.net/) - generates an interactive HTML table with the results from `bracken` for each sample, as well as a summary table for all the samples
 
 ## Installation and running the pipeline
 
-Nothing to install, as soon as you have `docker` and `nextflow`. Setup a `kraken2` database (see below), and run the pipeline:
+Nothing to install, as soon as you have `docker` and `nextflow`. Choose a `kraken2` database (see below), and run the pipeline:
 
 ```bash
 # run with a test dataset (included)
@@ -32,7 +32,7 @@ For all the arguments and how to use them see the output of `nextflow run angelo
 
 ## Output
 
-All output files are in the folder `results-kraken2`, which is in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be downloaded [here](https://www.dropbox.com/s/z6ditk7xsyw9wo4/results-kraken2.zip?dl=0).
+All output files are in the folder `results-kraken2`, which is found in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be downloaded [here](https://www.dropbox.com/s/z6ditk7xsyw9wo4/results-kraken2.zip?dl=0).
 
 The outputs are:
 
@@ -42,16 +42,11 @@ The outputs are:
 - `kraken2taxonomy_krona.html`-  an interactive Krona plot of the kraken2 output for all samples
 - `samples/` - directory with individual (per sample) kraken2 and bracken-corrected report files and with the abundance table from bracken (as html and tsv). *Tip: the report files can be directly imported in [Pavian](https://github.com/fbreitwieser/pavian) for nice interactive visualizations*.
 
-## Download and setup of a `kraken2` database
+## Choosing a `kraken2` database
 
-Get the minikraken2 database, e.g. from [here](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads), put it in a suitable folder ($HOME/db/) and untar:
+This pipeline needs a kraken2 database to run, passed by the `--database` parameter (default is the ftp to the 16S_Greengenes13.5 database <sup>1</sup>). An absolute path to a previously downloaded kraken database (`*.tgz`) file can be passed, as well as an ftp path (`ftp://...`). See the [kraken2 homepage](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) for a list of avalable pre-built databases. These databases have the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). Take care to use the correct `--readlen` parameter according to your reads data.
 
-
-```bash
-tar -xzvf minikraken_8GB_202003.tgz
-```
-
-This pre-built minikraken2 database has the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). The pipeline works well also for analysis of 16S amplicon data - get one of the [pre-built kraken2 databases](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) and use the correct`--readlen` parameter. Although still controversial, [recent work](https://www.biorxiv.org/content/10.1101/2020.03.27.012047v1) has shown that kraken2 may be performing better than QIIME in this.
+<sup>1</sup> Although still controversial, [recent work](https://www.biorxiv.org/content/10.1101/2020.03.27.012047v1) has shown that kraken2 may be performing better than QIIME in the analysis of 16S amplicons.
 
 ## References
 

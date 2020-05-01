@@ -23,7 +23,7 @@ params.outdir = "${params.readsdir}/results-kraken2" // output is where the read
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.readlen = 150
 params.ontreads = false
-params.database = ""
+params.database = "ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/16S_Greengenes13.5_20200326.tgz"
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
 params.help = ""
@@ -89,7 +89,7 @@ log.info """
          --ontreads     : logical, set to true in case of Nanopore reads, default is false. This parameter has influence on fastp -q and bracken -r
          --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
          --outdir       : where results will be saved, default is "results-fastp"
-         --database     : kraken2 database, default is ${params.database}
+         --database     : absolute path or ftp:// of kraken2 database, default is ${params.database}
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
          --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
         ===========================================
