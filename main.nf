@@ -286,7 +286,7 @@ process krona {
     """
 }
 
-// format and save bracken table as DataTable
+// format and save bracken table as DataTable, per sample
 
 process DataTables1 {
     tag "DataTables1 on $sample_id"
@@ -304,6 +304,9 @@ process DataTables1 {
     """
 }
 
+// use combine_bracken_outputs.py from bracken instead of bracken2summary.R
+// should be the same though
+// saves one summary table as html and csv for all samples
 process DataTables2 {
     tag "DataTables2"
     publishDir params.outdir, mode: 'copy'
