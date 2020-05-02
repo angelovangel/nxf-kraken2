@@ -24,6 +24,7 @@ params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.readlen = 150
 params.ontreads = false
 params.database = "ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/16S_Greengenes13.5_20200326.tgz"
+params.kaiju_db = false
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
 params.help = ""
@@ -59,12 +60,14 @@ log.info """
          --readlen          : ${params.readlen}
          --outdir           : ${params.outdir}
          --database         : ${params.database}
+         --kaiju_db         : ${params.kaiju_db}
          --weakmem          : ${params.weakmem}
          --taxlevel         : ${params.taxlevel}
 
          Runtime data:
         -------------------------------------------
          Running with profile:   ${ANSI_GREEN}${workflow.profile}${ANSI_RESET}
+         Container:              ${ANSI_GREEN}${workflow.container}${ANSI_RESET}
          Running as user:        ${ANSI_GREEN}${workflow.userName}${ANSI_RESET}
          Launch dir:             ${ANSI_GREEN}${workflow.launchDir}${ANSI_RESET}
          Base dir:               ${ANSI_GREEN}${baseDir}${ANSI_RESET}
@@ -90,6 +93,7 @@ log.info """
          --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
          --outdir       : where results will be saved, default is "results-fastp"
          --database     : absolute path or ftp:// of kraken2 database, default is ${params.database}
+         --kaiju_db     : either 'false' (default, do not execute kaiju), or one of 'refseq', 'progenomes', 'viruses', 'nr' ...
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
          --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
         ===========================================
@@ -253,6 +257,30 @@ process kraken2 {
 
 }
 
+// kaiju, in case params.kaiju_db is selected
+// Conditionally create the input channel with data or as empty channel,
+// the process consuming the input channels will only execute if the channel is populated
+if(params.kaiju_db){
+    Channel
+        .of( "${params.kaiju_db}" )
+        .set { file_kaiju_db }
+} else {
+    file_kaiju_db = Channel.empty()
+}
+
+process  kaiju_db_prep {
+  input:
+    val(x) from file_kaiju_db
+  
+  output:
+    file("${x}/*.fmi")
+    file("*dmp")
+  
+  script:
+  """
+  kaiju-makedb -s $x
+  """
+}
 
 // setup the krona database and put it in a channel
 process krona_db {
