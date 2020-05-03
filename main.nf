@@ -146,6 +146,7 @@ process fastp {
     
     output:
         tuple sample_id, file('trim_*') into fastp_ch
+        //tuple sample_id, file('trim_*') into fastp_ch
 
 
     script:
@@ -199,6 +200,10 @@ tar -xf $kraken_file
  Bracken output file --> just a table, to be formatted and saved as html DataTable using R
  kraken2 counts file, this is the kraken2.output --> to use in krona
  */
+
+fastp_ch
+    .into {fastp1; fastp2 }
+
 process kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
@@ -206,7 +211,7 @@ process kraken2 {
     
     input:
         path db from kraken2_db_ch //this db is not in the docker image
-        tuple sample_id, file(x) from fastp_ch
+        tuple sample_id, file(x) from fastp1
     
     output:
         file("*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
@@ -263,22 +268,71 @@ process kraken2 {
 if(params.kaiju_db){
     Channel
         .of( "${params.kaiju_db}" )
-        .set { file_kaiju_db }
+        .set { kaiju_db }
 } else {
-    file_kaiju_db = Channel.empty()
+        kaiju_db = Channel.empty()
 }
 
 process  kaiju_db_prep {
   input:
-    val(x) from file_kaiju_db
+    val(x) from kaiju_db
   
   output:
-    file("${x}/*.fmi")
-    file("*dmp")
+    path("${x}/*.fmi") into fmi_ch
+    path("nodes.dmp") into nodes_ch
+    path("*.dmp") into dmp_ch
   
   script:
   """
-  kaiju-makedb -s $x
+  kaiju-makedb -s $x 
+  """
+}
+
+// combine necessary here, for each sample_id with the db files 
+
+// kaiju is also not executed if its input channels are empty
+process kaiju {
+  //publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.tsv'
+
+  input:
+    tuple sample_id, file(x) from fastp2
+    file nodes from nodes_ch.first() // this trick makes it a value channel, so no need to combine!
+    file fmi from fmi_ch.first()
+  
+  output:
+    file("*_kaiju.out") into kaiju_summary_ch
+
+  script:
+  def single = x instanceof Path
+  def kaiju_input = single ? "-i \"${ x[0] }\"" : "-i \"${ x[0] }\" -j \"${ x[1] }\""
+  """
+  kaiju \
+    -z 6 \
+    -t $nodes \
+    -f $fmi \
+    $kaiju_input \
+    -o ${sample_id}_kaiju.out
+  """
+}
+
+process kaiju_summary {
+  publishDir params.outdir, mode: 'copy'
+  
+  input:
+    path("*") from dmp_ch
+    path x from kaiju_summary_ch.collect()
+  
+  output:
+    path 'kaiju_summary.tsv'
+  
+  script:
+  """
+  kaiju2table \
+    -t nodes.dmp \
+    -n names.dmp \
+    -r genus -m 1.0 \
+    -o kaiju_summary.tsv \
+    $x
   """
 }
 
