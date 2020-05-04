@@ -3,16 +3,16 @@
 ![gh last commit](https://img.shields.io/github/last-commit/angelovangel/nextflow-kraken2?style=flat-square)
 # nextflow-kraken2
 
-A relatively simple metagenomics analysis pipeline written in nextflow [[1]](#1). The pipeline is based on `kraken2`/`bracken` and `kaiju`, and is supplemented with `Krona` visualizations and interactive html tables.
+A relatively simple metagenomics analysis pipeline written in nextflow [[1]](#1). The pipeline is based on `kraken2`/`bracken` and `kaiju`, and is supplemented with `Krona` visualizations and interactive html tables. It is written with the idea to get taxonomic and abundance information for many samples, and not to compare different taxonomy assignment tools (but can be used for this as well).
 
 ## Description
 
-The pipeline runs in a docker container by default. Both Illumina and Nanopore (but not hybrid) data can be processed. For a set of `fastq` files it executes:
+The pipeline runs in a docker container by default. Both Illumina and Nanopore data can be processed (separately). For a set of `fastq` files it executes:
 
 - [`fastp`](https://github.com/OpenGene/fastp) - filter and trim reads with default parameters
 - [`kraken2`](http://ccb.jhu.edu/software/kraken2/) [[2]](#2) - taxonomic assignment of the reads 
-- [`bracken`](http://ccb.jhu.edu/software/bracken/) [[3]](#3) - abundance estimation at a single level in the taxonomic tree, e.g. species
-- [`kaiju`](https://github.com/bioinformatics-centre/kaiju) [[4]](#4) - taxonomic classification of the reads
+- [`bracken`](http://ccb.jhu.edu/software/bracken/) [[3]](#3) - abundance estimation at a single level in the taxonomic tree, e.g. species, using the kraken2 output
+- [`kaiju`](https://github.com/bioinformatics-centre/kaiju) [[4]](#4) - taxonomic classification of the reads based on maximum exact matches on protein level
 - [`krona`](https://github.com/marbl/Krona/wiki) [[5]](#5) - plots are generated from the output of `kraken2`
 - [`DataTables`](https://datatables.net/) - generates an interactive HTML table with the results from `bracken` for each sample, as well as a summary table for all the samples
 
@@ -53,12 +53,12 @@ The outputs are:
 ## Choosing a `kraken2` and/or `kaiju` database
 
 ### `--kraken_db`
-This pipeline needs a kraken2 or kaiju database to run, passed by the `--kraken_db` or `--kaiju_db` parameters. An absolute path to a previously downloaded kraken database (`*.tgz`) file can be passed, as well as an ftp path (`ftp://...`). See the [kraken2 homepage](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) for a list of avalable pre-built databases. These databases have the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). Take care to use the correct `--readlen` parameter according to your reads data.
+An absolute path to a previously downloaded kraken database (`*.tgz`) file can be passed, as well as an ftp path (`ftp://...`). See the [kraken2 homepage](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) for a list of avalable pre-built databases. These databases have the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). Take care to use the correct `--readlen` parameter according to your reads data.
 
 *Note: although still controversial, [recent work](https://www.biorxiv.org/content/10.1101/2020.03.27.012047v1) has shown that kraken2 may be performing better than QIIME in the analysis of 16S amplicons.*
 
 ### `--kaiju_db`
-This argument can be one of 
+This argument can be one of `refseq, progenomes, viruses, plasmids, fungi, nr, nr_euk, mar` or `rvdb`. When this parameter is used, a source database and the taxonomy files are downloaded from the NCBI FTP server, converedt them into a protein database and indexed (kaiju-makedb). Check the memory and space requirements [here](https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index) before using.
 
 ## References
 
