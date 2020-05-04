@@ -23,7 +23,7 @@ params.outdir = "${params.readsdir}/results-kraken2" // output is where the read
 params.fqpattern = "*_R{1,2}_001.fastq.gz"
 params.readlen = 150
 params.ontreads = false
-params.database = "ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/16S_Greengenes13.5_20200326.tgz"
+params.kraken_db = false
 params.kaiju_db = false
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
@@ -59,7 +59,7 @@ log.info """
          --ontreads         : ${params.ontreads}
          --readlen          : ${params.readlen}
          --outdir           : ${params.outdir}
-         --database         : ${params.database}
+         --kraken_db        : ${params.database}
          --kaiju_db         : ${params.kaiju_db}
          --weakmem          : ${params.weakmem}
          --taxlevel         : ${params.taxlevel}
@@ -92,7 +92,7 @@ log.info """
          --ontreads     : logical, set to true in case of Nanopore reads, default is false. This parameter has influence on fastp -q and bracken -r
          --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
          --outdir       : where results will be saved, default is "results-fastp"
-         --database     : absolute path or ftp:// of kraken2 database, default is ${params.database}
+         --kraken_db    : absolute path or ftp:// of kraken2 database, default is ${params.database}
          --kaiju_db     : either 'false' (default, do not execute kaiju), or one of 'refseq', 'progenomes', 'viruses', 'nr' ...
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
          --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
@@ -175,14 +175,25 @@ process fastp {
     }
 
 }
+// make fastp channels for kraken2 and kaiju
+fastp_ch
+    .into {fastp1; fastp2 }
+
+
+if(params.kraken_db){
+    Channel
+        .of( "${params.kraken_db}" )
+        .set { kraken_db }
+} else {
+        kraken_db = Channel.empty()
+}
 
 // setup kraken2 database, use url to tar.gz db
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
-
 process kraken2_db {
 input:
-    path kraken_file from "${params.database}" 
+    path kraken_file from kraken_db 
 
 output:
     path "**", type: 'dir' into kraken2_db_ch // so simple to put a directory in a channel
@@ -201,16 +212,13 @@ tar -xf $kraken_file
  kraken2 counts file, this is the kraken2.output --> to use in krona
  */
 
-fastp_ch
-    .into {fastp1; fastp2 }
-
 process kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
     publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.{report,tsv}'
     
     input:
-        path db from kraken2_db_ch //this db is not in the docker image
+        path db from kraken2_db_ch.first() //this db is not in the docker image
         tuple sample_id, file(x) from fastp1
     
     output:
