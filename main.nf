@@ -151,29 +151,17 @@ process fastp {
 
     script:
     def single = x instanceof Path // this is from Paolo: https://groups.google.com/forum/#!topic/nextflow/_ygESaTlCXg
+    def fastp_input = single ? "-i \"${ x }\"" : "-i \"${ x[0] }\" -I \"${ x[1] }\""
+    def fastp_output = single ? "-o \"trim_${ x }\"" : "-o \"trim_${ x[0] }\" -O \"trim_${ x[1] }\""
     def qscore_cutoff = params.ontreads ? 7 : 15 //here ontreads matters
 
-    if ( !single ) {
-        seqmode = "PE"
-        """
-        fastp \
-        -q $qscore_cutoff \
-        -i ${x[0]} -I ${x[1]} \
-        -o trim_${x[0]} -O trim_${x[1]} \
-        -j ${sample_id}_fastp.json
-        """
-    } 
-    else {
-        seqmode = "SE"
-        """
-        fastp \
-        -q $qscore_cutoff \
-        -i ${x} \
-        -o trim_${x} \
-        -j ${sample_id}_fastp.json
-        """
-    }
-
+    """
+    fastp \
+    -q $qscore_cutoff \
+    $fastp_input \
+    $fastp_output \
+    -j ${sample_id}_fastp.json
+    """
 }
 // make fastp channels for kraken2 and kaiju
 fastp_ch
@@ -229,15 +217,16 @@ process kraken2 {
     
     script:
     def single = x instanceof Path
+    def kraken_input = single ? "\"${ x }\"" : "--paired \"${ x[0] }\"  \"${ x[1] }\""
     def memory = params.weakmem ? "--memory-mapping" : ""  // use --memory-mapping to avoid loading db in ram on weak systems
     def rlength = params.ontreads ? 250 : params.readlen // and here ontreads matters. Default for -r is 100 in bracken, Dilthey used 1k in his paper
-    if ( !single ) {
+    
         """
         kraken2 \
             -db $db \
             $memory \
             --report ${sample_id}_kraken2.report \
-            --paired ${x[0]} ${x[1]} \
+            $kraken_input \
             > kraken2.output
         cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
 
@@ -248,25 +237,6 @@ process kraken2 {
             -l ${params.taxlevel} \
             -o ${sample_id}_bracken.tsv
         """
-    } 
-    else {
-        """
-        kraken2 \
-             -db $db \
-             $memory \
-            --report ${sample_id}_kraken2.report \
-            ${x} \
-            > kraken2.output
-        cut -f 2,3 kraken2.output > ${sample_id}_kraken2.krona
-
-        bracken \
-            -d $db \
-            -r $rlength \
-            -i ${sample_id}_kraken2.report \
-            -l ${params.taxlevel} \
-            -o ${sample_id}_bracken.tsv
-        """
-    }
 
 }
 
