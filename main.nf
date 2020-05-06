@@ -179,7 +179,7 @@ if(params.kraken_db){
 // setup kraken2 database, use url to tar.gz db
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
-process kraken2_db {
+process kraken2_db_prep {
 input:
     path kraken_file from kraken_db 
 
@@ -257,8 +257,8 @@ process  kaiju_db_prep {
   
   output:
     path("${x}/*.fmi") into fmi_ch
-    path("nodes.dmp") into nodes_ch
-    path("*.dmp") into dmp_ch
+    path("*.dmp") into dmp_ch_1 // for kaiju
+    path("*.dmp") into dmp_ch_2 // for kaiju2table
   
   script:
   """
@@ -274,11 +274,12 @@ process kaiju {
 
   input:
     tuple sample_id, file(x) from fastp2
-    file nodes from nodes_ch.first() // this trick makes it a value channel, so no need to combine!
+    path("*") from dmp_ch_1.first() // this trick makes it a value channel, so no need to combine!
     file fmi from fmi_ch.first()
   
   output:
     file("*_kaiju.out") into kaiju_summary_ch
+    file("*kaiju.out.krona") into kaiju2krona_ch
 
   script:
   def single = x instanceof Path
@@ -286,10 +287,12 @@ process kaiju {
   """
   kaiju \
     -z 6 \
-    -t $nodes \
+    -t nodes.dmp \
     -f $fmi \
     $kaiju_input \
     -o ${sample_id}_kaiju.out
+
+  kaiju2krona -t nodes.dmp -n names.dmp -i ${sample_id}_kaiju.out -o ${sample_id}_kaiju.out.krona
   """
 }
 
@@ -297,7 +300,7 @@ process kaiju_summary {
   publishDir params.outdir, mode: 'copy'
   
   input:
-    path("*") from dmp_ch
+    path("*") from dmp_ch_2
     path x from kaiju_summary_ch.collect()
   
   output:
