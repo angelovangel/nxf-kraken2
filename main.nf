@@ -331,21 +331,23 @@ process krona_db {
 // prepare channel for krona, I want to have all samples in one krona plot
 // e.g. ktImportTaxonomy file1 file2 ...
 
-// run krona on the kraken2 results
+// run krona on the kraken2 and kaiju results
 process krona {
     publishDir params.outdir, mode: 'copy'
 
     input:
         file(x) from kraken2krona_ch.collect()
+        file(y) from kaiju2krona_ch.collect()
         file("krona_db/taxonomy.tab") from krona_db_ch
     
     output:
-        file("kraken2_taxonomy_krona.html")
+        file("*_taxonomy_krona.html")
     
     script:
     """
     mkdir krona
-    ktImportTaxonomy $x -o kraken2_taxonomy_krona.html -tax krona_db
+    ktImportTaxonomy -o kraken2_taxonomy_krona.html -tax krona_db $x
+    ktImportText -o kaiju_taxonomy_krona.html $y
     """
 }
 
