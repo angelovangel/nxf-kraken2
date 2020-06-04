@@ -56,8 +56,8 @@ bracken2summary <- function(files) {
     }
   
   #----
-  # # make and save heatplot for top10 taxa for samples >=2 and < 24
-   if(length(files) >= 2 & length(files) <= 24) {
+  # # make and save heatplot for top10 taxa for samples >=2 and < 34
+   if(length(files) >= 2 & length(files) <= 34) {
      data.frame(row.names = dfw_top10$name, dfw_top10[,-1]) %>% 
        d3heatmap(colors = "YlOrRd", 
                  Rowv = FALSE, 
