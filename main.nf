@@ -27,6 +27,7 @@ params.kraken_db = false
 params.kaiju_db = false
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
+params.skip_krona = false
 params.help = ""
 
 /* 
@@ -59,10 +60,11 @@ log.info """
          --ontreads         : ${params.ontreads}
          --readlen          : ${params.readlen}
          --outdir           : ${params.outdir}
-         --kraken_db        : ${params.database}
+         --kraken_db        : ${params.kraken_db}
          --kaiju_db         : ${params.kaiju_db}
          --weakmem          : ${params.weakmem}
          --taxlevel         : ${params.taxlevel}
+         --skip_krona       : ${params.skip_krona}
 
          Runtime data:
         -------------------------------------------
@@ -90,8 +92,8 @@ log.info """
          --readsdir     : directory with fastq files, default is "fastq"
          --fqpattern    : regex pattern to match fastq files, default is "*_R{1,2}_001.fastq.gz"
          --ontreads     : logical, set to true in case of Nanopore reads, default is false. This parameter has influence on fastp -q and bracken -r
-         --readlen      : read length used for bracken, default is 150. A kmer distribution file for this length has to be present in your database, see bracken help.
-         --outdir       : where results will be saved, default is "results-fastp"
+         --readlen      : read length used for bracken, default is 150 (250 if ontreads is true). A kmer distribution file for this length has to be present in your database, see bracken help.
+         --outdir       : where results will be saved, default is "results-kraken2"
          --kraken_db    : absolute path or ftp:// of kraken2 database, default is ${params.database}
          --kaiju_db     : either 'false' (default, do not execute kaiju), or one of 'refseq', 'progenomes', 'viruses', 'nr' ...
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
@@ -318,10 +320,16 @@ process kaiju_summary {
 }
 
 // setup the krona database and put it in a channel
+// if no internet --skip_krona skips this process, and because the output channel is empty - it skips also
+// process krona
+    
 process krona_db {
     output:
-        file("krona_db/taxonomy.tab") into krona_db_ch
+        file("krona_db/taxonomy.tab") optional true into krona_db_ch
 
+    when: 
+        !params.skip_krona
+        
     script:
     """
     ktUpdateTaxonomy.sh krona_db
@@ -342,6 +350,9 @@ process krona {
     
     output:
         file("*_taxonomy_krona.html")
+
+    when:
+        !params.skip_krona
     
     script:
     """
