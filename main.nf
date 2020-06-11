@@ -212,7 +212,7 @@ process kraken2 {
         tuple sample_id, file(x) from fastp1
     
     output:
-        file("*report") // both kraken2 and the bracken-corrected reports are published and later used in pavian?
+        file("*report") into kraken2mqc_ch // both kraken2 and the bracken-corrected reports are published and later used in pavian?
         file("*kraken2.krona") into kraken2krona_ch
         tuple sample_id, file("*bracken.tsv") into bracken2dt_ch
         file("*bracken.tsv") into bracken2summary_ch
@@ -398,6 +398,21 @@ process DataTables2 {
     script:
     """
     bracken2summary.R $x
+    """
+}
+
+process MultiQC {
+    tag "MultiQC"
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+        file x from kraken2mqc_ch.collect()
+    output:
+        file "multiqc_report.html"
+    
+    script:
+    """
+    multiqc --interactive .
     """
 }
 

@@ -45,7 +45,7 @@ All output files are in the folder `results-kraken2`, which is found in the fold
 The outputs are:
 
 - `timmed_fastq/` - directory with fastq files after trimming, these are also used for taxonomic profiling
-- `bracken_summary_heatmap/table.html`- standalone html files with summary information from bracken. Note that these files will be generated only if there are less than 24 samples
+- `bracken_summary_heatmap/table.html`- standalone html files with summary information from bracken. Note that these files will be generated only if there are less than 34 samples
 - `bracken_summary_long/wide.csv`- summary bracken information (all found taxa in all samples), in different formats
 - `kraken2taxonomy_krona.html`-  an interactive Krona plot of the kraken2 output for all samples
 - `samples/` - directory with individual (per sample) kraken2 and bracken-corrected report files and with the abundance table from bracken (as html and tsv). *Tip: the report files can be directly imported in [Pavian](https://github.com/fbreitwieser/pavian) for nice interactive visualizations*.

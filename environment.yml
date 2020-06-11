@@ -3,11 +3,11 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - fastp=0.19.6
-  - kraken2=2.0.8_beta
-  - bracken=2.6.0
-  - krona=2.7.1
-  - pandoc=2.9.2.1
+  - fastp
+  - kraken2
+  - krona
+  - multiqc
+  - pandoc
   - r-base
   - r-data.table
   - r-dplyr
