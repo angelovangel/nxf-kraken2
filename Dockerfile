@@ -24,4 +24,4 @@ ENV PATH /kaiju/bin:/Bracken:$PATH
 # final stage
 COPY environment.yml .
 RUN conda env update -n root -f environment.yml && \
-    conda clean -afy
+    conda clean -afy && pip install multiqc

@@ -6,7 +6,6 @@ dependencies:
   - fastp
   - kraken2
   - krona
-  - multiqc
   - pandoc
   - r-base
   - r-data.table
