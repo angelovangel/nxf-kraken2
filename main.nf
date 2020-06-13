@@ -148,6 +148,7 @@ process fastp {
     
     output:
         tuple sample_id, file('trim_*') into fastp_ch
+        file("${sample_id}_fastp.json") into fastp4mqc_ch
         //tuple sample_id, file('trim_*') into fastp_ch
 
 
@@ -165,9 +166,9 @@ process fastp {
     -j ${sample_id}_fastp.json
     """
 }
-// make fastp channels for kraken2 and kaiju
+// make fastp channels for kraken2, kaiju and mqc
 fastp_ch
-    .into {fastp1; fastp2 }
+    .into { fastp1; fastp2 }
 
 
 if(params.kraken_db){
@@ -306,7 +307,7 @@ process kaiju_summary {
     path x from kaiju_summary_ch.collect()
   
   output:
-    path 'kaiju_summary.tsv'
+    path 'kaiju_summary.tsv' into kaiju2mqc_ch
   
   script:
   """
@@ -406,7 +407,9 @@ process MultiQC {
     publishDir params.outdir, mode: 'copy'
 
     input:
+        file z from fastp4mqc_ch.collect()
         file x from kraken2mqc_ch.collect()
+        file y from kaiju2mqc_ch
     output:
         file "multiqc_report.html"
     

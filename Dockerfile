@@ -14,11 +14,11 @@ RUN apt-get update --fix-missing && \
 RUN git clone https://github.com/bioinformatics-centre/kaiju.git && \
     cd kaiju/src && \
     make
-    
+
 # make kaiju and bracken binaries available
 ENV PATH /kaiju/bin:/Bracken:$PATH
 
-# final stage
+# final stage, install dev version of multiqc 
 COPY environment.yml .
 RUN conda env update -n root -f environment.yml && \
-    conda clean -afy && pip install multiqc
+    conda clean -afy && pip install git+https://github.com/ewels/MultiQC.git
