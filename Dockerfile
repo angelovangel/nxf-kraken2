@@ -14,10 +14,7 @@ RUN apt-get update --fix-missing && \
 RUN git clone https://github.com/bioinformatics-centre/kaiju.git && \
     cd kaiju/src && \
     make
-RUN git clone https://github.com/jenniferlu717/Bracken.git && \
-    cd Bracken && \
-    chmod a+x install_bracken.sh && ./install_bracken.sh
-
+    
 # make kaiju and bracken binaries available
 ENV PATH /kaiju/bin:/Bracken:$PATH
 

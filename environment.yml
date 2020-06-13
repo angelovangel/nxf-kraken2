@@ -5,6 +5,7 @@ channels:
 dependencies:
   - fastp
   - kraken2
+  - bracken=2.6.0
   - krona
   - pandoc
   - r-base
