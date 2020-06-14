@@ -15,6 +15,7 @@ The pipeline runs in a docker container by default. Both Illumina and Nanopore d
 - [`kaiju`](https://github.com/bioinformatics-centre/kaiju) [[4]](#4) - taxonomic classification of the reads based on maximum exact matches on protein level
 - [`krona`](https://github.com/marbl/Krona/wiki) [[5]](#5) - plots are generated from the output of `kraken2`
 - [`DataTables`](https://datatables.net/) - generates an interactive HTML table with the results from `bracken` for each sample, as well as a summary table for all the samples
+- [`MultiQC`](https://multiqc.info/) [[6]](#6) - aggregates the results into a single html report
 
 The pipeline runs kraken2/bracken or kaiju depending on the parameters supplied: use `--kraken_db` to run kraken2/bracken or `--kaiju_db` to run kaiju (or both parameters to run both).
 
@@ -79,3 +80,6 @@ Menzel, P., Ng, K. & Krogh, A. Fast and sensitive taxonomic classification for m
 
 <a id="5">[5]</a> 
 Ondov BD, Bergman NH, Phillippy AM. Interactive metagenomic visualization in a Web browser. BMC Bioinformatics. 2011;12:385. Published 2011 Sep 30. https://doi.org/10.1186/1471-2105-12-385
+
+<a id="6">[6]</a> 
+Philip Ewels, Måns Magnusson, Sverker Lundin and Max Käller. MultiQC: Summarize analysis results for multiple tools and samples in a single report. Bioinformatics (2016). https://doi.org/10.1093/bioinformatics/btaa559

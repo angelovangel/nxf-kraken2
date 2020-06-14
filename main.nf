@@ -407,9 +407,9 @@ process MultiQC {
     publishDir params.outdir, mode: 'copy'
 
     input:
-        file z from fastp4mqc_ch.collect()
-        file x from kraken2mqc_ch.collect()
-        file y from kaiju2mqc_ch
+        file x from fastp4mqc_ch.collect()
+        file y from kraken2mqc_ch.collect().ifEmpty([]) // do mqc if only one of kraken2 or kaiju was executed
+        file z from kaiju2mqc_ch.ifEmpty([]) // do mqc if only one of kraken2 or kaiju was executed
     output:
         file "multiqc_report.html"
     
