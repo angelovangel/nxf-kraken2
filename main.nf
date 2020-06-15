@@ -113,12 +113,16 @@ process SoftwareVersions {
 
     script:
     """
+    echo "software\tversion\tbuild\tchannel" > tempfile
+    
     conda list | \
     grep 'fastp\\|kraken2\\|bracken\\|krona\\|r-data.table\\|r-dplyr\\|r-tidyr\\|r-dt\\|r-d3heatmap\\|r-base' \
-    >tempfile
+    >> tempfile
 
-    echo 'nextflow\t$nextflow.version\t$nextflow.build' >> tempfile
-    
+    echo "kaiju \$(cd /kaiju && git tag | tail -n 1)" >> tempfile
+    echo 'nextflow\t${nextflow.version}\t${nextflow.build}' >> tempfile
+    multiqc --version | sed 's/, version//' >> tempfile
+
     # replace blanks with tab for easier processing downstream
     tr -s '[:blank:]' '\t' < tempfile > software_versions.txt
     """
@@ -402,6 +406,7 @@ process DataTables2 {
     """
 }
 
+// still no bracken module in mqc, opened an issue on github
 process MultiQC {
     tag "MultiQC"
     publishDir params.outdir, mode: 'copy'
