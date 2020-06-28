@@ -20,7 +20,7 @@ ANSI_RESET = "\033[0m"
  */
 params.readsdir = "fastq"
 params.outdir = "${params.readsdir}/results-kraken2" // output is where the reads are because it is easier to integrate with shiny later
-params.fqpattern = "*_R{1,2}_001.fastq.gz"
+params.fqpattern = "*_R{1,2}.fastq.gz"
 params.readlen = 150
 params.ontreads = false
 params.kraken_db = false
@@ -345,6 +345,7 @@ process krona_db {
 // e.g. ktImportTaxonomy file1 file2 ...
 
 // run krona on the kraken2 and kaiju results
+// SPLIT THIS PROCESS FOR KRAKEN AND KAIJU
 process krona {
     publishDir params.outdir, mode: 'copy'
 
