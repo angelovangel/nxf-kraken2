@@ -141,7 +141,7 @@ Channel
 /* 
  * run fastp 
  */
-process fastp {
+process Fastp {
 
     tag "fastp on $sample_id"
     //echo true
@@ -186,7 +186,7 @@ if(params.kraken_db){
 // setup kraken2 database, use url to tar.gz db
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
-process kraken2_db_prep {
+process KrakenDBPrep {
 input:
     path kraken_file from kraken_db 
 
@@ -207,7 +207,7 @@ tar -xf $kraken_file
  kraken2 counts file, this is the kraken2.output --> to use in krona
  */
 
-process kraken2 {
+process Kraken2 {
     tag "kraken2 on $sample_id"
     //echo true
     publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.{report,tsv}'
@@ -258,7 +258,7 @@ if(params.kaiju_db){
         kaiju_db = Channel.empty()
 }
 
-process  kaiju_db_prep {
+process  KaijuDBPrep {
   input:
     val(x) from kaiju_db
   
@@ -276,7 +276,7 @@ process  kaiju_db_prep {
 // combine necessary here, for each sample_id with the db files 
 
 // kaiju is also not executed if its input channels are empty
-process kaiju {
+process Kaiju {
   //publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.tsv'
 
   input:
@@ -303,7 +303,7 @@ process kaiju {
   """
 }
 
-process kaiju_summary {
+process KaijuSummary {
   publishDir params.outdir, mode: 'copy'
   
   input:
@@ -328,9 +328,9 @@ process kaiju_summary {
 // if no internet --skip_krona skips this process, and because the output channel is empty - it skips also
 // process krona
     
-process krona_db {
+process KronaDB {
     output:
-        file("krona_db/taxonomy.tab") optional true into krona_db_ch
+        file("krona_db/taxonomy.tab") optional true into krona_db_ch // is this a value ch?
 
     when: 
         !params.skip_krona
@@ -346,12 +346,12 @@ process krona_db {
 
 // run krona on the kraken2 and kaiju results
 // SPLIT THIS PROCESS FOR KRAKEN AND KAIJU
-process krona {
+process KronaFromKraken {
     publishDir params.outdir, mode: 'copy'
 
     input:
         file(x) from kraken2krona_ch.collect()
-        file(y) from kaiju2krona_ch.collect()
+        //file(y) from kaiju2krona_ch.collect()
         file("krona_db/taxonomy.tab") from krona_db_ch
     
     output:
@@ -364,6 +364,26 @@ process krona {
     """
     mkdir krona
     ktImportTaxonomy -o kraken2_taxonomy_krona.html -tax krona_db $x
+    """
+}
+
+process KronaFromKaiju {
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+        //file(x) from kraken2krona_ch.collect()
+        file(y) from kaiju2krona_ch.collect()
+        file("krona_db/taxonomy.tab") from krona_db_ch
+    
+    output:
+        file("*_taxonomy_krona.html")
+
+    when:
+        !params.skip_krona
+    
+    script:
+    """
+    mkdir krona
     ktImportText -o kaiju_taxonomy_krona.html $y
     """
 }
