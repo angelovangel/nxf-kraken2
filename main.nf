@@ -24,6 +24,7 @@ params.fqpattern = "*_R{1,2}.fastq.gz"
 params.readlen = 150
 params.ontreads = false
 params.kraken_db = "ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/minikraken_8GB_202003.tgz"
+params.kraken_store = "$HOME/db/kraken"
 params.kaiju_db = false
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
@@ -187,11 +188,11 @@ if(params.kraken_db){
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
 process KrakenDBPrep {
-input:
-    path kraken_file from kraken_db 
-
-output:
-    path "**", type: 'dir' into kraken2_db_ch // so simple to put a directory in a channel
+    storeDir "${params.kraken_store}"
+    input:
+        path kraken_file from kraken_db 
+    output:
+        path "**", type: 'dir' into kraken2_db_ch // so simple to put a directory in a channel
 
 script:
 """
