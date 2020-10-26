@@ -23,7 +23,7 @@ params.outdir = "${params.readsdir}/results-kraken2" // output is where the read
 params.fqpattern = "*_R{1,2}.fastq.gz"
 params.readlen = 150
 params.ontreads = false
-params.kraken_db = "ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/minikraken_8GB_202003.tgz"
+params.kraken_db = "https://genome-idx.s3.amazonaws.com/kraken/k2_standard_8gb_20200919.tar.gz"
 params.kraken_store = "$HOME/db/kraken"
 params.kaiju_db = false
 params.weakmem = false
@@ -95,7 +95,7 @@ log.info """
          --ontreads     : logical, set to true in case of Nanopore reads, default is false. This parameter has influence on fastp -q and bracken -r
          --readlen      : read length used for bracken, default is 150 (250 if ontreads is true). A kmer distribution file for this length has to be present in your database, see bracken help.
          --outdir       : where results will be saved, default is "results-kraken2"
-         --kraken_db    : absolute path or ftp:// of kraken2 database, default is ${params.kraken_db}
+         --kraken_db    : absolute path or ftp:// of kraken2 database, default is ${params.kraken_db}. See https://benlangmead.github.io/aws-indexes/k2 for available indexes
          --kaiju_db     : either 'false' (default, do not execute kaiju), or one of 'refseq', 'progenomes', 'viruses', 'nr' ...
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
          --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
