@@ -188,7 +188,7 @@ if(params.kraken_db){
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
 process KrakenDBPrep {
-    storeDir "${params.kraken_store}"
+    //storeDir "${params.kraken_store}"
     input:
         path kraken_file from kraken_db 
     output:
