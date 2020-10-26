@@ -19,7 +19,7 @@ The pipeline runs in a docker container by default. Both Illumina and Nanopore d
 
 The pipeline runs kraken2/bracken or kaiju depending on the parameters supplied: use `--kraken_db` to run kraken2/bracken or `--kaiju_db` to run kaiju (or both parameters to run both).
 
-The `--kraken_db` parameter can be the ftp path or a path to previously downloaded kraken2 database. 
+The `--kraken_db` parameter can be the ftp path or a path to previously downloaded kraken2 database. A collection of ready-to-use kraken2/bracken RefSeq indexes can be downloaded from [here](https://benlangmead.github.io/aws-indexes/k2).
 
 The `--kaiju_db` can be one of `refseq, progenomes, viruses, plasmids, fungi, nr, nr_euk, mar` or `rvdb`. See the links above for available databases for each tool.
 
