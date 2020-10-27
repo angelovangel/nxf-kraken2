@@ -188,15 +188,16 @@ if(params.kraken_db){
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
 process KrakenDBPrep {
-    //storeDir "${params.kraken_store}"
+    storeDir "${params.kraken_store}"
     input:
         path kraken_file from kraken_db 
     output:
-        path "**", type: 'dir' into kraken2_db_ch // so simple to put a directory in a channel
+        path "**", type: 'dir' into kraken2_db_ch
 
+// accomodate for cases where there is/there is not a leading directory in the tar archive
 script:
 """
-tar -xf $kraken_file
+mkdir -p krakendb && tar -xf $kraken_file -C krakendb
 """
 }
 
@@ -214,7 +215,9 @@ process Kraken2 {
     publishDir "${params.outdir}/samples", mode: 'copy', pattern: '*.{report,tsv}'
     
     input:
-        path db from kraken2_db_ch.first() //this db is not in the docker image
+    // some channel work to accomodate for cases where there is/there is not a leading directory in the tar archive
+    // see https://github.com/BenLangmead/aws-indexes/issues/5
+        path db from kraken2_db_ch.flatten().last() 
         tuple sample_id, file(x) from fastp1
     
     output:
