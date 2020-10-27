@@ -189,16 +189,19 @@ if(params.kraken_db){
 // input with absolute path stages the file downloaded previously
 process KrakenDBPrep {
     storeDir "${params.kraken_store}"
+
     input:
         path kraken_file from kraken_db 
+        
     output:
         path "**", type: 'dir' into kraken2_db_ch
 
 // accomodate for cases where there is/there is not a leading directory in the tar archive
-script:
-"""
-mkdir -p krakendb && tar -xf $kraken_file -C krakendb
-"""
+    script:
+    dbname = kraken_file.baseName
+    """
+    mkdir -p $dbname && tar -xf $kraken_file -C $dbname
+    """
 }
 
 
