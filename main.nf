@@ -3,8 +3,8 @@
 /*
 NXF ver 19.08+ needed because of the use of tuple instead of set
 */
-if( !nextflow.version.matches('>=19.08') ) {
-    println "This workflow requires Nextflow version 19.08 or greater and you are running version $nextflow.version"
+if( !nextflow.version.matches('>=20.04') ) {
+    println "This workflow requires Nextflow version 20.04 or greater and you are running version $nextflow.version"
     exit 1
 }
 
@@ -24,12 +24,21 @@ params.fqpattern = "*_R{1,2}.fastq.gz"
 params.readlen = 150
 params.ontreads = false
 params.kraken_db = "https://genome-idx.s3.amazonaws.com/kraken/k2_standard_8gb_20200919.tar.gz"
-params.kraken_store = "$HOME/db/kraken"
+//params.kraken_store = "$HOME/db/kraken" //any valid database under this path will be used, no matter what is supplied as params.kraken_db
+// todo: stage dynamically, using the file name --> under $Home/db/kraken/filename
 params.kaiju_db = false
 params.weakmem = false
 params.taxlevel = "S" //level to estimate abundance at [options: D,P,C,O,F,G,S] (default: S)
 params.skip_krona = false
 params.help = ""
+
+/*
+handle store dir
+*/
+kraken_dbname = file("${params.kraken_db}").getSimpleName()
+// even this method exists! getSimpleName()
+params.kraken_store = "$HOME/db/kraken/${kraken_dbname}"
+println("Will use ${params.kraken_store} as kraken_store dir")
 
 /* 
  * handling of parameters 
