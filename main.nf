@@ -24,7 +24,7 @@ params.fqpattern = "*_R{1,2}.fastq.gz"
 params.readlen = 150
 params.ontreads = false
 params.kraken_db = "https://genome-idx.s3.amazonaws.com/kraken/k2_standard_8gb_20200919.tar.gz"
-//params.kraken_store = "$HOME/db/kraken" //any valid database under this path will be used, no matter what is supplied as params.kraken_db
+params.kraken_store = "$HOME/db/kraken" // here kraken db will be collected
 // todo: stage dynamically, using the file name --> under $Home/db/kraken/filename
 params.kaiju_db = false
 params.weakmem = false
@@ -33,12 +33,12 @@ params.skip_krona = false
 params.help = ""
 
 /*
-handle store dir
+assign store dir dynamically
 */
 kraken_dbname = file("${params.kraken_db}").getSimpleName()
 // even this method exists! getSimpleName()
-params.kraken_store = "$HOME/db/kraken/${kraken_dbname}"
-println("Will use ${params.kraken_store} as kraken_store dir")
+curr_kraken_store = "${params.kraken_store}/${kraken_dbname}"
+println("Will use ${curr_kraken_store} as kraken_store dir")
 
 /* 
  * handling of parameters 
@@ -84,6 +84,7 @@ log.info """
          Launch dir:             ${ANSI_GREEN}${workflow.launchDir}${ANSI_RESET}
          Base dir:               ${ANSI_GREEN}${baseDir}${ANSI_RESET}
          Fastq files:            ${ANSI_GREEN}${ readcounts.size() } files found${ANSI_RESET}
+         kraken db store dir     ${ANSI_GREEN}${curr_kraken_store}${ANSI_RESET}
          """
          .stripIndent()
 /* 
@@ -197,7 +198,7 @@ if(params.kraken_db){
 // input with ftp:// path downloads and stages the file
 // input with absolute path stages the file downloaded previously
 process KrakenDBPrep {
-    storeDir "${params.kraken_store}"
+    storeDir "${curr_kraken_store}"
 
     input:
         path kraken_file from kraken_db 
@@ -207,9 +208,8 @@ process KrakenDBPrep {
 
 // accomodate for cases where there is/there is not a leading directory in the tar archive
     script:
-    dbname = kraken_file.baseName
     """
-    mkdir -p $dbname && tar -xf $kraken_file -C $dbname
+    mkdir -p $kraken_dbname && tar -xf $kraken_file -C $kraken_dbname
     """
 }
 
