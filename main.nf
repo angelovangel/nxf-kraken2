@@ -109,6 +109,7 @@ log.info """
          --kaiju_db     : either 'false' (default, do not execute kaiju), or one of 'refseq', 'progenomes', 'viruses', 'nr' ...
          --weakmem      : logical, set to true to avoid loading the kraken2 database in RAM (on weak machines)
          --taxlevel     : taxonomical level to estimate bracken abundance at [options: D,P,C,O,F,G,S] (default: S)
+         --skip_krona   : skip making krona plots
         ===========================================
          """
          .stripIndent()
