@@ -19,7 +19,7 @@ The pipeline runs in a docker container by default. Both Illumina and Nanopore d
 
 The pipeline runs kraken2/bracken or kaiju depending on the parameters supplied: use `--kraken_db` to run kraken2/bracken or `--kaiju_db` to run kaiju (or both parameters to run both).
 
-The `--kraken_db` parameter can be the ftp path or a path to previously downloaded kraken2 database. A collection of ready-to-use kraken2/bracken RefSeq indexes can be downloaded from [here](https://benlangmead.github.io/aws-indexes/k2).
+The `--kraken_db` parameter is a path to a previously downloaded kraken2 database. A collection of ready-to-use kraken2/bracken RefSeq indexes can be downloaded from [here](https://benlangmead.github.io/aws-indexes/k2).
 
 The `--kaiju_db` can be one of `refseq, progenomes, viruses, plasmids, fungi, nr, nr_euk, mar` or `rvdb`. See the links above for available databases for each tool.
 
@@ -38,7 +38,6 @@ nextflow run angelovangel/nextflow-kraken2 --help
 
 ```
 
-
 ## Output
 
 All output files are in the folder `results-kraken2`, which is found in the folder with reads data used for running the pipeline. An example of the outputs, generated with a small Illumina dataset can be downloaded [here](https://www.dropbox.com/s/z6ditk7xsyw9wo4/results-kraken2.zip?dl=0).
@@ -54,12 +53,12 @@ The outputs are:
 ## Choosing a `kraken2` and/or `kaiju` database
 
 ### `--kraken_db`
-An absolute path to a previously downloaded kraken database (`*.tgz`) file can be passed, as well as an ftp path (`ftp://...`). See the [kraken2 homepage](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) for a list of avalable pre-built databases. These databases have the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). Take care to use the correct `--readlen` parameter according to your reads data.
+An absolute path to a folder containing a kraken2 database. See the [kraken2 homepage](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) or [Ben Langmead's collection](https://benlangmead.github.io/aws-indexes/k2) for a list of avalable pre-built databases. These databases have the required Bracken files included (for read lengths 50, 100, 150, 200 and 250). Take care to use the correct `--readlen` parameter according to your reads data.
 
 *Note: although still controversial, [recent work](https://www.biorxiv.org/content/10.1101/2020.03.27.012047v1) has shown that kraken2 may be performing better than QIIME in the analysis of 16S amplicons.*
 
 ### `--kaiju_db`
-This argument can be one of `refseq, progenomes, viruses, plasmids, fungi, nr, nr_euk, mar` or `rvdb`. When this parameter is used, a source database and the taxonomy files are downloaded from the NCBI FTP server, converedt them into a protein database and indexed (kaiju-makedb). Check the memory and space requirements [here](https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index) before using.
+This argument can be one of `refseq, progenomes, viruses, plasmids, fungi, nr, nr_euk, mar` or `rvdb`. When this parameter is used, a source database and the taxonomy files are downloaded from the NCBI FTP server, converted into a protein database and indexed (kaiju-makedb). Check the memory and space requirements [here](https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index) before using.
 
 ## References
 
